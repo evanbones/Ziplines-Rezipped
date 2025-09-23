@@ -7,12 +7,11 @@ import dev.doublekekse.zipline.registry.ZiplineSoundEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -31,17 +30,17 @@ public class ZiplineItem extends Item {
     private static final double HANG_OFFSET = 2.12;
     private static final double TOP_VERTICAL_SNAP_FACTOR = 0.3;
     private static final double SNAP_RADIUS = 3;
-    private static final double MAX_TURN_ANGLE =  0.707;
+    private static final double MAX_TURN_ANGLE = 0.707;
 
     public ZiplineItem(Properties properties) {
         super(properties);
     }
 
-    @Override
-    public @NotNull UseAnim getUseAnimation(ItemStack itemStack) {
-        return UseAnim.NONE;
-    }
+    //@Override
 
+    /// public @NotNull UseAnim getUseAnimation(ItemStack itemStack) {
+    //return UseAnim.NONE;
+    //}
     @Override
     public int getUseDuration(ItemStack itemStack, LivingEntity livingEntity) {
         return Integer.MAX_VALUE;
@@ -78,7 +77,7 @@ public class ZiplineItem extends Item {
 
 
         if (actuallyUsing) {
-            ziplineTick(player, level);
+            ziplineTick(player, itemStack);
         }
     }
 
@@ -132,9 +131,9 @@ public class ZiplineItem extends Item {
         return hasCollision(blockCollisions);
     }
 
-    void ziplineTick(Player player, Level level) {
-        if(!cable.isValid()) {
-            interruptUsing(player);
+    void ziplineTick(Player player, ItemStack itemStack) {
+        if (!cable.isValid()) {
+            interruptUsing(player, itemStack);
             return;
         }
 
@@ -149,7 +148,7 @@ public class ZiplineItem extends Item {
         lastDir = newPosition.subtract(closestPoint);
 
         if (isInvalidPosition(player, lastDir)) {
-            interruptUsing(player);
+            interruptUsing(player, itemStack);
 
             return;
         }
@@ -186,7 +185,7 @@ public class ZiplineItem extends Item {
             }
 
             if (nextCable == null) {
-                interruptUsing(player);
+                interruptUsing(player, itemStack);
                 return;
             }
 
@@ -196,10 +195,10 @@ public class ZiplineItem extends Item {
         }
     }
 
-    void interruptUsing(Player player) {
+    void interruptUsing(Player player, ItemStack itemStack) {
         player.stopUsingItem();
         applyExitMomentum(player);
-        player.getCooldowns().addCooldown(this, 20);
+        player.getCooldowns().addCooldown(itemStack, 20);
 
         player.playSound(ZiplineSoundEvents.ZIPLINE_INTERRUPT, 0.5f, 1);
         disable();
@@ -211,34 +210,33 @@ public class ZiplineItem extends Item {
     }
 
     @Override
-    public void releaseUsing(ItemStack itemStack, Level level, LivingEntity livingEntity, int i) {
+    public boolean releaseUsing(ItemStack itemStack, Level level, LivingEntity livingEntity, int i) {
         if (!(livingEntity instanceof Player player)) {
-            return;
+            return false;
         }
 
-        player.getCooldowns().addCooldown(this, 10);
+        player.getCooldowns().addCooldown(itemStack, 10);
 
         if (!level.isClientSide) {
-            return;
+            return false;
         }
 
         if (actuallyUsing) {
             livingEntity.addDeltaMovement(new Vec3(0, 0.8, 0));
             applyExitMomentum(livingEntity);
             disable();
+            return true;
         }
 
-        super.releaseUsing(itemStack, level, livingEntity, i);
+        return false;
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
-        var itemStack = player.getItemInHand(interactionHand);
-
+    public @NotNull InteractionResult use(Level level, Player player, InteractionHand interactionHand) {
         player.startUsingItem(interactionHand);
 
         if (!level.isClientSide) {
-            return InteractionResultHolder.consume(itemStack);
+            return InteractionResult.CONSUME;
         }
 
         if (player.isLocalPlayer()) {
@@ -246,6 +244,6 @@ public class ZiplineItem extends Item {
             speed = 0;
         }
 
-        return InteractionResultHolder.consume(itemStack);
+        return InteractionResult.CONSUME;
     }
 }
