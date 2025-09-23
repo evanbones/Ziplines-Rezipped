@@ -43,11 +43,9 @@ public abstract class ItemInHandRendererMixin {
 
         shake(itemStack, abstractClientPlayer, tickDelta, poseStack);
 
-        double pp = 0;
-        poseStack.translate(0, pp, 0);
-        poseStack.translate(0, -.4, .2);
+        poseStack.translate(-.2, -.6, 0);
 
-        poseStack.mulPose(Axis.XP.rotationDegrees(10));
+        poseStack.mulPose(Axis.XP.rotationDegrees(30));
         poseStack.mulPose(Axis.YN.rotationDegrees((float) q * -10.0f));
         poseStack.mulPose(Axis.ZP.rotationDegrees((float) q * 70));
 
@@ -60,7 +58,6 @@ public abstract class ItemInHandRendererMixin {
 
         poseStack.translate((float) q * 0.1, -0.52f, -0.72f);
         poseStack.translate(0, 1.6, -.4);
-        poseStack.translate(0, pp, 0);
 
         renderItem(abstractClientPlayer, itemStack, bl2 ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, /*!bl2,*/ poseStack, multiBufferSource, lightCoords);
 
