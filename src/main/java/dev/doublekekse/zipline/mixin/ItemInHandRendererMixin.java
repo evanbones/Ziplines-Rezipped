@@ -21,11 +21,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemInHandRenderer.class)
 public abstract class ItemInHandRendererMixin {
-    @Shadow
-    public abstract void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, boolean bl, PoseStack poseStack, MultiBufferSource multiBufferSource, int i);
 
     @Shadow
     protected abstract void renderPlayerArm(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, float f, float g, HumanoidArm humanoidArm);
+
+    @Shadow public abstract void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, MultiBufferSource multiBufferSource, int i);
 
     @Inject(method = "renderArmWithItem", at = @At("HEAD"), cancellable = true)
     void renderArmWithItem(AbstractClientPlayer abstractClientPlayer, float tickDelta, float xRot, InteractionHand interactionHand, float attackAnim, ItemStack itemStack, float mainHandHeight, PoseStack poseStack, MultiBufferSource multiBufferSource, int lightCoords, CallbackInfo ci) {
@@ -62,7 +62,7 @@ public abstract class ItemInHandRendererMixin {
         poseStack.translate(0, 1.6, -.4);
         poseStack.translate(0, pp, 0);
 
-        this.renderItem(abstractClientPlayer, itemStack, bl2 ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, !bl2, poseStack, multiBufferSource, lightCoords);
+        renderItem(abstractClientPlayer, itemStack, bl2 ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, /*!bl2,*/ poseStack, multiBufferSource, lightCoords);
 
         poseStack.popPose();
 

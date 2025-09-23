@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version '1.11-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -34,6 +34,11 @@ repositories {
         url "https://maven.shedaniel.me/"
     }
 
+    maven {
+        name = "Jitpack"
+        url 'https://jitpack.io/'
+    }
+
     flatDir {
         dir "libs"
     }
@@ -47,13 +52,16 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    modApi "me.shedaniel.cloth:cloth-config-fabric:15.0.140"
+    modApi "me.shedaniel.cloth:cloth-config-fabric:19.0.147"
 
-    modImplementation "maven.modrinth:hyphapiracea:0.1.2.1.fabric"
-    modImplementation "maven.modrinth:connectiblechains:2.5.4+1.21.1"
+    modCompileOnly "maven.modrinth:hyphapiracea:0.1.2.1.fabric"
+    modImplementation "maven.modrinth:connectiblechains:2.5.4+1.21.8"
     modCompileOnly "maven.modrinth:vivatech:1.0.0-alpha.24"
     modCompileOnly "org.modogthedev.superposition:superposition-fabric:1.21.1-0.2.3"
     modCompileOnly "io.github.foundationgames:phonos:1.0.0-beta.20+fabric-1.21.1"
+
+    modImplementation "com.github.Chocohead:Fabric-ASM:v$project.fabric_asm_version"
+    include "com.github.Chocohead:Fabric-ASM:v$project.fabric_asm_version"
 }
 
 processResources {

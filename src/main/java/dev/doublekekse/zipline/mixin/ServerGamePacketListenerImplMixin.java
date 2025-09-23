@@ -1,5 +1,6 @@
 package dev.doublekekse.zipline.mixin;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.doublekekse.zipline.registry.ZiplineItems;
@@ -8,6 +9,7 @@ import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,6 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ServerGamePacketListenerImpl.class)
 public class ServerGamePacketListenerImplMixin {
+    @Shadow
+    public ServerPlayer player;
+
     /**
      * Prevent flying kick when using zipline
      */
@@ -44,13 +49,13 @@ public class ServerGamePacketListenerImplMixin {
     /**
      * Prevent moving too quickly kick when using zipline
      */
-    @WrapOperation(method = "handleMovePlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;isSingleplayerOwner()Z"))
-    boolean isSinglePlayerOwner(ServerGamePacketListenerImpl instance, Operation<Boolean> original) {
-        if (isUsingZipline(instance.player)) {
-            return true;
+    @WrapMethod(method = "shouldCheckPlayerMovement")
+    boolean shouldCheckPlayerMovement(boolean bl, Operation<Boolean> original) {
+        if (isUsingZipline(player)) {
+            return false;
         }
 
-        return original.call(instance);
+        return original.call(bl);
     }
 
     @Unique
