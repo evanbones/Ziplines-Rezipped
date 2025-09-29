@@ -5,12 +5,8 @@
     "Sg"
   ],
   "key": {
-    "g": {
-      "item": "minecraft:gold_ingot"
-    },
-    "S": {
-      "item": "minecraft:shears"
-    }
+    "g": "minecraft:gold_ingot",
+    "S": "minecraft:shears"
   },
   "result": {
     "id": "zipline:zipline",
