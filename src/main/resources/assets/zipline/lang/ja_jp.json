@@ -1,0 +1,9 @@
+{
+  "item.zipline.zipline": "ジップライン",
+  "itemGroup.zipline.zipline": "ジップライン",
+
+  "subtitles.zipline.zipline.use": "ジップラインで移動する",
+  "subtitles.zipline.zipline.attach": "ジップラインをつかむ",
+  "subtitles.zipline.zipline.detach": "ジップラインを離す",
+  "subtitles.zipline.zipline.interrupt": "ジップラインが中断される"
+}
