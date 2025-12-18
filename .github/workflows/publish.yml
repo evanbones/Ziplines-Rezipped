@@ -40,8 +40,8 @@ jobs:
             hyphapiracea (optional)
             vivatech (optional)
 
-          curseforge-id: 1182075
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+          # curseforge-id: 1182075
+          # curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
 
           dependencies: |
