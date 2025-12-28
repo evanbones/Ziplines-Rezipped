@@ -5,7 +5,7 @@ import com.mojang.math.Axis;
 import dev.doublekekse.zipline.registry.ZiplineItems;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -23,12 +23,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ItemInHandRendererMixin {
 
     @Shadow
-    protected abstract void renderPlayerArm(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, float f, float g, HumanoidArm humanoidArm);
+    protected abstract void renderPlayerArm(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i, float f, float g, HumanoidArm humanoidArm);
 
-    @Shadow public abstract void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, MultiBufferSource multiBufferSource, int i);
+    @Shadow
+    public abstract void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int i);
 
     @Inject(method = "renderArmWithItem", at = @At("HEAD"), cancellable = true)
-    void renderArmWithItem(AbstractClientPlayer abstractClientPlayer, float tickDelta, float xRot, InteractionHand interactionHand, float attackAnim, ItemStack itemStack, float mainHandHeight, PoseStack poseStack, MultiBufferSource multiBufferSource, int lightCoords, CallbackInfo ci) {
+    void renderArmWithItem(AbstractClientPlayer abstractClientPlayer, float tickDelta, float xRot, InteractionHand interactionHand, float attackAnim, ItemStack itemStack, float mainHandHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
         if (!itemStack.is(ZiplineItems.ZIPLINE) || !abstractClientPlayer.isUsingItem()) {
             return;
         }
@@ -49,7 +50,7 @@ public abstract class ItemInHandRendererMixin {
         poseStack.mulPose(Axis.YN.rotationDegrees((float) q * -10.0f));
         poseStack.mulPose(Axis.ZP.rotationDegrees((float) q * 70));
 
-        renderPlayerArm(poseStack, multiBufferSource, lightCoords, 0, 0, humanoidArm);
+        renderPlayerArm(poseStack, submitNodeCollector, lightCoords, 0, 0, humanoidArm);
         poseStack.popPose();
 
         poseStack.pushPose();
@@ -59,7 +60,7 @@ public abstract class ItemInHandRendererMixin {
         poseStack.translate((float) q * 0.1, -0.52f, -0.72f);
         poseStack.translate(0, 1.6, -.4);
 
-        renderItem(abstractClientPlayer, itemStack, bl2 ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, /*!bl2,*/ poseStack, multiBufferSource, lightCoords);
+        renderItem(abstractClientPlayer, itemStack, bl2 ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, /*!bl2,*/ poseStack, submitNodeCollector, lightCoords);
 
         poseStack.popPose();
 

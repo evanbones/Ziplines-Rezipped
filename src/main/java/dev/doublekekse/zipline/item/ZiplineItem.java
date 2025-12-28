@@ -51,7 +51,7 @@ public class ZiplineItem extends Item {
         super.onUseTick(level, livingEntity, itemStack, i);
 
 
-        if (!level.isClientSide || !(livingEntity instanceof Player player) || !player.isLocalPlayer()) {
+        if (!level.isClientSide() || !(livingEntity instanceof Player player) || !player.isLocalPlayer()) {
             return;
         }
 
@@ -217,7 +217,7 @@ public class ZiplineItem extends Item {
 
         player.getCooldowns().addCooldown(itemStack, 10);
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             return false;
         }
 
@@ -235,7 +235,7 @@ public class ZiplineItem extends Item {
     public @NotNull InteractionResult use(Level level, Player player, InteractionHand interactionHand) {
         player.startUsingItem(interactionHand);
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             return InteractionResult.CONSUME;
         }
 
