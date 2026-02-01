@@ -1,5 +1,7 @@
+
 # User-specific stuff
 .idea/
+.vscode/
 
 *.iml
 *.ipr
@@ -23,6 +25,7 @@ atlassian-ide-plugin.xml
 *.ctxt
 
 # Package Files #
+*.jar
 *.war
 *.nar
 *.ear
@@ -101,6 +104,7 @@ $RECYCLE.BIN/
 
 .gradle
 build/
+bin
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -116,6 +120,3 @@ runs/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
-
-# Blockbench models
-*.bbmodel

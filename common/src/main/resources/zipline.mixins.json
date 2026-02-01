@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.evandev.zipline.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "ServerGamePacketListenerImplMixin",
+    "compat.connectiblechains.EntityMixin",
+    "compat.phonos.BlockEntityOutputsAccessor",
+    "compat.superposition.CableManagerMixin"
+  ],
+  "client": [
+    "GameRendererMixin",
+    "HumanoidModelMixin",
+    "ItemInHandRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
