@@ -10,75 +10,75 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(Player.class)
 public class PlayerMixin implements ZiplinePlayerDuck {
     @Unique
-    private Cable cable;
+    private Cable zipline$cable;
     @Unique
-    private double speed;
+    private double zipline$speed;
     @Unique
-    private double progress;
+    private double zipline$progress;
     @Unique
-    private int directionFactor;
+    private int zipline$directionFactor;
     @Unique
-    private Vec3 lastDir;
+    private Vec3 zipline$lastDir;
     @Unique
-    private boolean actuallyUsing;
+    private boolean zipline$actuallyUsing;
 
     @Override
     public Cable zipline$getCable() {
-        return cable;
+        return zipline$cable;
     }
 
     @Override
     public void zipline$setCable(Cable cable) {
-        this.cable = cable;
+        this.zipline$cable = cable;
     }
 
     @Override
     public double zipline$getSpeed() {
-        return speed;
+        return zipline$speed;
     }
 
     @Override
     public void zipline$setSpeed(double speed) {
-        this.speed = speed;
+        this.zipline$speed = speed;
     }
 
     @Override
     public double zipline$getProgress() {
-        return progress;
+        return zipline$progress;
     }
 
     @Override
     public void zipline$setProgress(double progress) {
-        this.progress = progress;
+        this.zipline$progress = progress;
     }
 
     @Override
     public int zipline$getDirectionFactor() {
-        return directionFactor;
+        return zipline$directionFactor;
     }
 
     @Override
     public void zipline$setDirectionFactor(int factor) {
-        this.directionFactor = factor;
+        this.zipline$directionFactor = factor;
     }
 
     @Override
     public Vec3 zipline$getLastDir() {
-        return lastDir;
+        return zipline$lastDir;
     }
 
     @Override
     public void zipline$setLastDir(Vec3 dir) {
-        this.lastDir = dir;
+        this.zipline$lastDir = dir;
     }
 
     @Override
     public boolean zipline$isActuallyUsing() {
-        return actuallyUsing;
+        return zipline$actuallyUsing;
     }
 
     @Override
     public void zipline$setActuallyUsing(boolean using) {
-        this.actuallyUsing = using;
+        this.zipline$actuallyUsing = using;
     }
 }

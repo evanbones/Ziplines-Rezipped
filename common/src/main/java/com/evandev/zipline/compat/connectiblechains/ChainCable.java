@@ -27,7 +27,7 @@ public record ChainCable(Vec3 from, Vec3 to, Vec3 delta, Vec3 direction, double 
     @Override
     public double getProgress(Vec3 playerPos) {
         Vec3 playerToStart = playerPos.subtract(from);
-        double t = playerToStart.dot(direction) / length; // Parametric position
+        double t = playerToStart.dot(direction) / length;
         t = Mth.clamp(t, 0.0, 1.0);
 
         return t;

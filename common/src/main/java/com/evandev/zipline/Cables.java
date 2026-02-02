@@ -37,12 +37,12 @@ public class Cables {
         return nearestCable;
     }
 
+    public static void registerProvider(CableProvider provider) {
+        providers.add(provider);
+    }
+
     @FunctionalInterface
     public interface CableProvider {
         Cable getNearestCable(Vec3 offsetPlayerPos, double squaredRadius);
-    }
-
-    public static void registerProvider(CableProvider provider) {
-        providers.add(provider);
     }
 }

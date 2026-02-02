@@ -161,7 +161,6 @@ public class ZiplineLogic {
     public static void release(Player player, ItemStack stack, Level level) {
         ZiplinePlayerDuck duck = (ZiplinePlayerDuck) player;
 
-        // Cooldown
         player.getCooldowns().addCooldown(stack.getItem(), 10);
 
         if (!level.isClientSide) return;

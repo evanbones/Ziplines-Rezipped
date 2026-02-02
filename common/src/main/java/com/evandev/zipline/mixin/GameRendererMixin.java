@@ -20,35 +20,35 @@ public class GameRendererMixin implements GameRendererDuck {
     @Final
     Minecraft minecraft;
     @Unique
-    int ziplineTilt = 0;
+    int zipline$ziplineTilt = 0;
     @Unique
-    float ziplineTiltDirection;
+    float zipline$ziplineTiltDirection;
 
     @Inject(method = "bobHurt", at = @At("HEAD"))
     void bobHurt(PoseStack poseStack, float tickDelta, CallbackInfo ci) {
-        if (ziplineTilt < 0) {
+        if (zipline$ziplineTilt < 0) {
             return;
         }
 
-        float g = ziplineTilt - tickDelta;
+        float g = zipline$ziplineTilt - tickDelta;
         g /= 10;
         g = Mth.sin(g * g * g * g * (float) Math.PI);
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(-ziplineTiltDirection));
+        poseStack.mulPose(Axis.YP.rotationDegrees(-zipline$ziplineTiltDirection));
 
         float tiltStrength = (float) (-g * 14.0 * minecraft.options.damageTiltStrength().get());
         poseStack.mulPose(Axis.ZP.rotationDegrees(tiltStrength));
 
-        poseStack.mulPose(Axis.YP.rotationDegrees(ziplineTiltDirection));
+        poseStack.mulPose(Axis.YP.rotationDegrees(zipline$ziplineTiltDirection));
     }
 
     @Inject(method = "tick", at = @At("HEAD"))
     void tick(CallbackInfo ci) {
-        ziplineTilt--;
+        zipline$ziplineTilt--;
     }
 
     public void zipline$setZiplineTilt(float yaw) {
-        this.ziplineTiltDirection = yaw;
-        ziplineTilt = 10;
+        this.zipline$ziplineTiltDirection = yaw;
+        zipline$ziplineTilt = 10;
     }
 }
