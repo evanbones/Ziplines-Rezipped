@@ -70,6 +70,10 @@ repositories {
         name = "ClothConfig"
         url "https://maven.shedaniel.me/"
     }
+
+    flatDir {
+        dirs "libs"
+    }
 }
 
 ['apiElements', 'runtimeElements', 'sourcesElements', 'javadocElements'].each { variant ->

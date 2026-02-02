@@ -1,7 +1,7 @@
-package com.evandev.reliable_remover.client;
+package com.evandev.zipline.client;
 
-import com.evandev.reliable_remover.config.ClothConfigIntegration;
-import com.evandev.reliable_remover.platform.Services;
+import com.evandev.zipline.config.ClothConfigIntegration;
+import com.evandev.zipline.platform.Services;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 

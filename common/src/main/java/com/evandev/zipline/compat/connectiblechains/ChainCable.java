@@ -1,7 +1,7 @@
 package com.evandev.zipline.compat.connectiblechains;
 
+import com.evandev.connectiblechains.util.Helper;
 import com.evandev.zipline.Cable;
-import com.github.legoatoom.connectiblechains.util.Helper;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;

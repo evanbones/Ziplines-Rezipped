@@ -22,6 +22,8 @@ dependencies {
     modImplementation "maven.modrinth:hyphapiracea:0.1.2.1.fabric"
     modImplementation "maven.modrinth:connectiblechains:2.5.4+1.21.1"
     modCompileOnly "maven.modrinth:vivatech:1.0.0-alpha.24"
+    modImplementation "local:connectiblechains-fabric-1.21.1-1.0.0"
+    // modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_fabric_version}"
 
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"

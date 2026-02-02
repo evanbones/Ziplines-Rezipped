@@ -8,8 +8,8 @@
     "${mod_author}"
   ],
   "contact": {
-    "homepage": "https://github.com/evanbones/Reliable-Remover",
-    "sources": "https://github.com/evanbones/Reliable-Remover"
+    "homepage": "https://github.com/evanbones/Zipline",
+    "sources": "https://github.com/evanbones/Zipline"
   },
   "license": "${license}",
   "icon": "${mod_id}.png",

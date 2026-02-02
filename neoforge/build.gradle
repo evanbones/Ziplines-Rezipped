@@ -44,6 +44,10 @@ dependencies {
 
     // Cloth Config
     implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
+
+    // Reconnectible Chains
+    implementation "local:connectiblechains-neoforge-1.21.1-1.0.0"
+    // implementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_neoforge_version}"
 }
 
 publishMods {

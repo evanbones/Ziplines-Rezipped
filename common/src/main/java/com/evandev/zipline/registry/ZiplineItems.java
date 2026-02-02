@@ -9,10 +9,10 @@ import net.minecraft.world.item.Items;
 import java.util.function.Function;
 
 public class ZiplineItems {
-    public static final Item ZIPLINE = register(ZiplineItem::new, new Item.Properties(), "zipline");
+    public static final Item ZIPLINE = register(ZiplineItem::new, new Item.Properties());
 
-    private static Item register(Function<Item.Properties, Item> factory, Item.Properties properties, String path) {
-        ResourceLocation itemLocation = Zipline.id(path);
+    private static Item register(Function<Item.Properties, Item> factory, Item.Properties properties) {
+        ResourceLocation itemLocation = Zipline.id("zipline");
         final var item = factory.apply(properties);
 
         return Items.registerItem(itemLocation, item);

@@ -2,8 +2,6 @@ package com.evandev.zipline.client;
 
 import com.evandev.zipline.compat.connectiblechains.ConnectibleChainsCompat;
 import com.evandev.zipline.compat.hypha_piracea.HyphaPiraceaCompat;
-import com.evandev.zipline.compat.phonos.PhonosCompat;
-import com.evandev.zipline.compat.superposition.SuperpositionCompat;
 import com.evandev.zipline.compat.vivatech.VivatechCompat;
 import com.evandev.zipline.duck.GameRendererDuck;
 import net.fabricmc.api.ClientModInitializer;
@@ -16,29 +14,6 @@ public class ZiplineClient implements ClientModInitializer {
     public void onInitializeClient() {
         compat();
 
-        /*
-        ClientTickEvents.START_WORLD_TICK.register((level) -> {
-            var players = level.players();
-            if (players.isEmpty()) {
-                return;
-            }
-
-            var cable = Cables.getClosestCable(players.getFirst().position(), 10);
-
-            if (cable == null) {
-                return;
-            }
-
-            for (double i = 0; i < 1; i += 0.01) {
-                var d = cable.getPoint(i);
-
-                level.addParticle(ParticleTypes.CRIT,
-                    d.x, d.y, d.z,
-                    cable.direction(i).x * 0.1, cable.direction(i).y * 0.1, cable.direction(i).z * 0.1
-                );
-            }
-        });
-         */
     }
 
     public void compat() {
