@@ -4,6 +4,8 @@
   "package": "com.evandev.zipline.mixin",
   "compatibilityLevel": "JAVA_18",
   "mixins": [
+    "ItemMixin",
+    "PlayerMixin",
     "ServerGamePacketListenerImplMixin",
     "compat.connectiblechains.EntityMixin"
   ],

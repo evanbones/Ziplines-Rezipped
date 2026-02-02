@@ -1,8 +1,8 @@
 package com.evandev.zipline.mixin.compat.connectiblechains;
 
+import com.evandev.zipline.registry.ZiplineTags;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.evandev.zipline.registry.ZiplineItems;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,6 +28,6 @@ public class EntityMixin {
         var mainHand = player.getMainHandItem();
         var offHand = player.getOffhandItem();
 
-        return !mainHand.is(ZiplineItems.ZIPLINE.get()) && !offHand.is(ZiplineItems.ZIPLINE.get());
+        return !mainHand.is(ZiplineTags.ATTACHMENT) && !offHand.is(ZiplineTags.ATTACHMENT);
     }
 }

@@ -1,8 +1,8 @@
 package com.evandev.zipline.mixin;
 
+import com.evandev.zipline.registry.ZiplineTags;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.evandev.zipline.registry.ZiplineItems;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -29,7 +29,7 @@ public abstract class ItemInHandRendererMixin {
 
     @Inject(method = "renderArmWithItem", at = @At("HEAD"), cancellable = true)
     void renderArmWithItem(AbstractClientPlayer abstractClientPlayer, float tickDelta, float xRot, InteractionHand interactionHand, float attackAnim, ItemStack itemStack, float mainHandHeight, PoseStack poseStack, MultiBufferSource multiBufferSource, int lightCoords, CallbackInfo ci) {
-        if (!itemStack.is(ZiplineItems.ZIPLINE.get()) || !abstractClientPlayer.isUsingItem()) {
+        if (!itemStack.is(ZiplineTags.ATTACHMENT) || !abstractClientPlayer.isUsingItem()) {
             return;
         }
 
@@ -41,7 +41,7 @@ public abstract class ItemInHandRendererMixin {
         boolean bl2 = humanoidArm == HumanoidArm.RIGHT;
         int q = bl2 ? 1 : -1;
 
-        shake(itemStack, abstractClientPlayer, tickDelta, poseStack);
+        zipline$shake(itemStack, abstractClientPlayer, tickDelta, poseStack);
 
         double pp = 0;
         poseStack.translate(0, pp, 0);
@@ -56,7 +56,7 @@ public abstract class ItemInHandRendererMixin {
 
         poseStack.pushPose();
 
-        shake(itemStack, abstractClientPlayer, tickDelta, poseStack);
+        zipline$shake(itemStack, abstractClientPlayer, tickDelta, poseStack);
 
         poseStack.translate((float) q * 0.1, -0.52f, -0.72f);
         poseStack.translate(0, 1.6, -.4);
@@ -70,7 +70,7 @@ public abstract class ItemInHandRendererMixin {
     }
 
     @Unique
-    void shake(ItemStack itemStack, AbstractClientPlayer abstractClientPlayer, float tickDelta, PoseStack poseStack) {
+    void zipline$shake(ItemStack itemStack, AbstractClientPlayer abstractClientPlayer, float tickDelta, PoseStack poseStack) {
         float useFactor = itemStack.getUseDuration(abstractClientPlayer) - (abstractClientPlayer.getUseItemRemainingTicks() - tickDelta + 1.0f);
 
         float m = Mth.sin((useFactor - 0.1f) * 1.3f);

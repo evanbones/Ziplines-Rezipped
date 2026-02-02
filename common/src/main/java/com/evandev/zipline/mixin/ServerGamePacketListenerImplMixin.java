@@ -1,8 +1,8 @@
 package com.evandev.zipline.mixin;
 
+import com.evandev.zipline.registry.ZiplineTags;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.evandev.zipline.registry.ZiplineItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.Entity;
@@ -24,7 +24,7 @@ public class ServerGamePacketListenerImplMixin {
             return;
         }
 
-        if (isUsingZipline(player)) {
+        if (zipline$isUsingZipline(player)) {
             cir.setReturnValue(Integer.MAX_VALUE);
         }
     }
@@ -34,7 +34,7 @@ public class ServerGamePacketListenerImplMixin {
      */
     @WrapOperation(method = "handleMovePlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;isSleeping()Z", ordinal = 1))
     boolean handleMovePlayer(ServerPlayer instance, Operation<Boolean> original) {
-        if (isUsingZipline(instance)) {
+        if (zipline$isUsingZipline(instance)) {
             return true;
         }
 
@@ -46,7 +46,7 @@ public class ServerGamePacketListenerImplMixin {
      */
     @WrapOperation(method = "handleMovePlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;isSingleplayerOwner()Z"))
     boolean isSinglePlayerOwner(ServerGamePacketListenerImpl instance, Operation<Boolean> original) {
-        if (isUsingZipline(instance.player)) {
+        if (zipline$isUsingZipline(instance.player)) {
             return true;
         }
 
@@ -54,7 +54,7 @@ public class ServerGamePacketListenerImplMixin {
     }
 
     @Unique
-    boolean isUsingZipline(Player player) {
-        return player.getUseItem().is(ZiplineItems.ZIPLINE.get());
+    boolean zipline$isUsingZipline(Player player) {
+        return player.getUseItem().is(ZiplineTags.ATTACHMENT);
     }
 }

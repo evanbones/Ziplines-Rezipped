@@ -1,6 +1,6 @@
 package com.evandev.zipline.mixin;
 
-import com.evandev.zipline.registry.ZiplineItems;
+import com.evandev.zipline.registry.ZiplineTags;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.InteractionHand;
@@ -25,15 +25,11 @@ public class HumanoidModelMixin<T extends LivingEntity> {
     @Final
     public ModelPart rightArm;
 
-    @Shadow
-    @Final
-    public ModelPart body;
-
     @Inject(method = "setupAnim(Lnet/minecraft/world/entity/LivingEntity;FFFFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/geom/ModelPart;copyFrom(Lnet/minecraft/client/model/geom/ModelPart;)V"))
     void poseLeftArm(T livingEntity, float f, float g, float h, float i, float j, CallbackInfo ci) {
         if (livingEntity instanceof Player player) {
             var useItem = player.getUseItem();
-            if (!useItem.is(ZiplineItems.ZIPLINE.get()) || !player.isUsingItem()) {
+            if (!useItem.is(ZiplineTags.ATTACHMENT) || !player.isUsingItem()) {
                 return;
             }
 
@@ -41,15 +37,15 @@ public class HumanoidModelMixin<T extends LivingEntity> {
             var mainArm = player.getMainArm();
 
             if (hand == InteractionHand.MAIN_HAND) {
-                positionArm(getArmModel(mainArm));
+                zipline$positionArm(zipline$getArmModel(mainArm));
             } else {
-                positionArm(getArmModel(mainArm.getOpposite()));
+                zipline$positionArm(zipline$getArmModel(mainArm.getOpposite()));
             }
         }
     }
 
     @Unique
-    ModelPart getArmModel(HumanoidArm arm) {
+    ModelPart zipline$getArmModel(HumanoidArm arm) {
         if (arm == HumanoidArm.RIGHT) {
             return rightArm;
         } else {
@@ -58,7 +54,7 @@ public class HumanoidModelMixin<T extends LivingEntity> {
     }
 
     @Unique
-    void positionArm(ModelPart arm) {
+    void zipline$positionArm(ModelPart arm) {
         int a = arm == rightArm ? 1 : -1;
 
         arm.xRot = (float) (-0.9f * Math.PI);
