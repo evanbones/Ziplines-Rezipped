@@ -1,7 +1,7 @@
 package com.evandev.zipline.platform;
 
 import com.evandev.zipline.Constants;
-import com.evandev.reliable_remover.platform.services.IPlatformHelper;
+import com.evandev.zipline.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
 

@@ -4,8 +4,8 @@ import com.evandev.zipline.compat.connectiblechains.ConnectibleChainsCompat;
 import com.evandev.zipline.compat.hypha_piracea.HyphaPiraceaCompat;
 import com.evandev.zipline.compat.vivatech.VivatechCompat;
 import com.evandev.zipline.duck.GameRendererDuck;
+import com.evandev.zipline.platform.Services;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 
 public class ZiplineClient implements ClientModInitializer {
@@ -13,29 +13,19 @@ public class ZiplineClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         compat();
-
     }
 
     public void compat() {
-        var loader = FabricLoader.getInstance();
-        if (loader.isModLoaded("hyphapiracea")) {
+        if (Services.PLATFORM.isModLoaded("hyphapiracea")) {
             HyphaPiraceaCompat.register();
         }
 
-        if (loader.isModLoaded("connectiblechains")) {
+        if (Services.PLATFORM.isModLoaded("connectiblechains")) {
             ConnectibleChainsCompat.register();
         }
 
-        if (loader.isModLoaded("vivatech")) {
+        if (Services.PLATFORM.isModLoaded("vivatech")) {
             VivatechCompat.register();
-        }
-
-        if (loader.isModLoaded("superposition")) {
-            SuperpositionCompat.register();
-        }
-
-        if (loader.isModLoaded("phonos")) {
-            PhonosCompat.register();
         }
     }
 
