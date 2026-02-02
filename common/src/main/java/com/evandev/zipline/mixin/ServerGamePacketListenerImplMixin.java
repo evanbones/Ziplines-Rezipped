@@ -55,6 +55,6 @@ public class ServerGamePacketListenerImplMixin {
 
     @Unique
     boolean isUsingZipline(Player player) {
-        return player.getUseItem().is(ZiplineItems.ZIPLINE);
+        return player.getUseItem().is(ZiplineItems.ZIPLINE.get());
     }
 }

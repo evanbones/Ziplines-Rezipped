@@ -2,16 +2,16 @@ package com.evandev.zipline;
 
 import com.evandev.zipline.registry.ZiplineItems;
 import com.evandev.zipline.registry.ZiplineSoundEvents;
-import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.ResourceLocation;
 
-public class Zipline implements ModInitializer {
+public class Zipline {
+    public static final String MOD_ID = "zipline";
+
     public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath("zipline", path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
-    @Override
-    public void onInitialize() {
+    public static void init() {
         ZiplineItems.register();
         ZiplineSoundEvents.register();
     }

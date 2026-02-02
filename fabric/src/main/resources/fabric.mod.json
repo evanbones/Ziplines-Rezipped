@@ -8,18 +8,18 @@
     "${mod_author}"
   ],
   "contact": {
-    "homepage": "https://github.com/evanbones/Zipline",
-    "sources": "https://github.com/evanbones/Zipline"
+    "homepage": "https://github.com/evanbones/Ziplines-Rezipped",
+    "sources": "https://github.com/evanbones/Ziplines-Rezipped"
   },
   "license": "${license}",
   "icon": "${mod_id}.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.evandev.zipline.Zipline"
+      "com.evandev.zipline.ZiplineMod"
     ],
     "client": [
-      "com.evandev.zipline.client.ZiplineClient"
+      "com.evandev.zipline.client.ZiplineModClient"
     ]
   },
   "mixins": [

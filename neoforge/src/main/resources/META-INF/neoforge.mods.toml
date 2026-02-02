@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "${neoforge_loader_version_range}"
 license = "${license}"
-issueTrackerURL="https://github.com/evanbones/Reliable-Remover/issues"
+issueTrackerURL="https://github.com/evanbones/Ziplines-Rezipped/issues"
 
 [[mods]]
 modId = "${mod_id}"
@@ -30,11 +30,4 @@ modId = "minecraft"
 type="required"
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
-side = "BOTH"
-
-[[dependencies.${mod_id}]]
-modId = "emi"
-type="optional"
-versionRange = "[1.0.4,)"
-ordering = "AFTER"
 side = "BOTH"

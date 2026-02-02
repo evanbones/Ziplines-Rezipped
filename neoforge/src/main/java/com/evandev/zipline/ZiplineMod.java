@@ -1,37 +1,29 @@
 package com.evandev.zipline;
 
-import com.evandev.zipline.client.ClientConfigSetup;
-import com.evandev.zipline.config.ReloadListener;
-import com.evandev.zipline.config.RuleManager;
+import com.evandev.zipline.client.ZiplineClient;
+import com.evandev.zipline.platform.NeoForgeRegistryHelper;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
-import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
-@Mod(ReliableRemoverMod.MOD_ID)
-public class ReliableRemoverMod {
-    public ReliableRemoverMod(IEventBus modEventBus, ModContainer modContainer) {
+@Mod(Zipline.MOD_ID)
+public class ZiplineMod {
+    public ZiplineMod(IEventBus modEventBus, ModContainer modContainer) {
+        NeoForgeRegistryHelper.ITEMS.register(modEventBus);
+        NeoForgeRegistryHelper.SOUNDS.register(modEventBus);
+
+        Zipline.init();
+
         modEventBus.addListener(this::commonSetup);
-        NeoForge.EVENT_BUS.addListener(this::addReloadListener);
-
-        if (FMLEnvironment.dist.isClient()) {
-            ClientConfigSetup.register(modContainer);
-        }
-    }
-
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
-        ReliableRemoverCommands.register(event.getDispatcher());
+        modEventBus.addListener(this::clientSetup);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        RuleManager.load();
     }
 
-    private void addReloadListener(final AddReloadListenerEvent event) {
-        event.addListener(new ReloadListener());
+    private void clientSetup(final FMLClientSetupEvent event) {
+        ZiplineClient.init();
     }
 }

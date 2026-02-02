@@ -33,7 +33,7 @@ public class HumanoidModelMixin<T extends LivingEntity> {
     void poseLeftArm(T livingEntity, float f, float g, float h, float i, float j, CallbackInfo ci) {
         if (livingEntity instanceof Player player) {
             var useItem = player.getUseItem();
-            if (!useItem.is(ZiplineItems.ZIPLINE) || !player.isUsingItem()) {
+            if (!useItem.is(ZiplineItems.ZIPLINE.get()) || !player.isUsingItem()) {
                 return;
             }
 

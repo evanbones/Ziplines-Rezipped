@@ -29,7 +29,7 @@ public abstract class ItemInHandRendererMixin {
 
     @Inject(method = "renderArmWithItem", at = @At("HEAD"), cancellable = true)
     void renderArmWithItem(AbstractClientPlayer abstractClientPlayer, float tickDelta, float xRot, InteractionHand interactionHand, float attackAnim, ItemStack itemStack, float mainHandHeight, PoseStack poseStack, MultiBufferSource multiBufferSource, int lightCoords, CallbackInfo ci) {
-        if (!itemStack.is(ZiplineItems.ZIPLINE) || !abstractClientPlayer.isUsingItem()) {
+        if (!itemStack.is(ZiplineItems.ZIPLINE.get()) || !abstractClientPlayer.isUsingItem()) {
             return;
         }
 

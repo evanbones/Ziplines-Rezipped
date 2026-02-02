@@ -28,6 +28,6 @@ public class EntityMixin {
         var mainHand = player.getMainHandItem();
         var offHand = player.getOffhandItem();
 
-        return !mainHand.is(ZiplineItems.ZIPLINE) && !offHand.is(ZiplineItems.ZIPLINE);
+        return !mainHand.is(ZiplineItems.ZIPLINE.get()) && !offHand.is(ZiplineItems.ZIPLINE.get());
     }
 }

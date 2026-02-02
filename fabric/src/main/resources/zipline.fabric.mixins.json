@@ -1,7 +1,7 @@
 {
     "required": true,
     "minVersion": "0.8",
-    "package": "com.evandev.reliable_remover.mixin",
+    "package": "com.evandev.zipline.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
     ],
@@ -10,6 +10,7 @@
     "server": [
     ],
     "injectors": {
-        "defaultRequire": 1
+      "defaultRequire": 1
     }
-}
+  }
+  

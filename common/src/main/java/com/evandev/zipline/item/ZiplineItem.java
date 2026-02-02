@@ -94,7 +94,7 @@ public class ZiplineItem extends Item {
         float yaw = (float) (Mth.atan2(delta.z, delta.x) * 57.2957763671875 - player.getYRot());
         ZiplineClient.ziplineTilt(yaw);
 
-        player.playSound(ZiplineSoundEvents.ZIPLINE_ATTACH, 0.6f, 1);
+        player.playSound(ZiplineSoundEvents.ZIPLINE_ATTACH.get(), 0.6f, 1);
     }
 
     void disable() {
@@ -160,7 +160,7 @@ public class ZiplineItem extends Item {
 
         player.setDeltaMovement(0, 0, 0);
 
-        player.playSound(ZiplineSoundEvents.ZIPLINE_USE, 1.0F, .3f + (float) (speed));
+        player.playSound(ZiplineSoundEvents.ZIPLINE_USE.get(), 1.0F, .3f + (float) (speed));
 
         if (progress >= 1.0 || progress <= 0.0) {
             var nextCables = cable.getNext(directionFactor == 1);
@@ -201,7 +201,7 @@ public class ZiplineItem extends Item {
         applyExitMomentum(player);
         player.getCooldowns().addCooldown(this, 20);
 
-        player.playSound(ZiplineSoundEvents.ZIPLINE_INTERRUPT, 0.5f, 1);
+        player.playSound(ZiplineSoundEvents.ZIPLINE_INTERRUPT.get(), 0.5f, 1);
         disable();
     }
 
