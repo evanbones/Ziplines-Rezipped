@@ -77,6 +77,7 @@ public class ZiplineLogic {
         ZiplineClient.ziplineTilt(clampedYaw);
 
         player.playSound(ZiplineSoundEvents.ZIPLINE_ATTACH.get(), 0.6f, 1);
+        ZiplineClient.startZiplineSound(player);
     }
 
     private static void ziplineTick(Player player, ZiplinePlayerDuck duck, ItemStack stack) {
@@ -157,9 +158,7 @@ public class ZiplineLogic {
 
         player.setPos(newOffsetPosition);
         player.setDeltaMovement(0, 0, 0);
-        if (Math.abs(velocity) > 0.01) {
-            player.playSound(ZiplineSoundEvents.ZIPLINE_USE.get(), 1.0F, .3f + (float) Math.abs(velocity));
-        }
+
         if (newProgress >= 1.0 || newProgress <= 0.0) {
             handleCableSwitch(player, duck, cable, velocity >= 0 ? 1 : -1, lastDir);
         }
