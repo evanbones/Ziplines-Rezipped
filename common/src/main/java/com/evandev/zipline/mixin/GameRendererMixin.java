@@ -1,8 +1,8 @@
 package com.evandev.zipline.mixin;
 
+import com.evandev.zipline.duck.GameRendererDuck;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.evandev.zipline.duck.GameRendererDuck;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
@@ -26,17 +26,16 @@ public class GameRendererMixin implements GameRendererDuck {
 
     @Inject(method = "bobHurt", at = @At("HEAD"))
     void bobHurt(PoseStack poseStack, float tickDelta, CallbackInfo ci) {
-        if (zipline$ziplineTilt < 0) {
+        if (zipline$ziplineTilt <= 0) {
             return;
         }
 
-        float g = zipline$ziplineTilt - tickDelta;
-        g /= 10;
-        g = Mth.sin(g * g * g * g * (float) Math.PI);
+        float progress = (zipline$ziplineTilt - tickDelta) / 10.0F;
+        float ease = Mth.sin(progress * Mth.PI);
 
         poseStack.mulPose(Axis.YP.rotationDegrees(-zipline$ziplineTiltDirection));
 
-        float tiltStrength = (float) (-g * 14.0 * minecraft.options.damageTiltStrength().get());
+        float tiltStrength = (float) (ease * 5.0 * minecraft.options.damageTiltStrength().get());
         poseStack.mulPose(Axis.ZP.rotationDegrees(tiltStrength));
 
         poseStack.mulPose(Axis.YP.rotationDegrees(zipline$ziplineTiltDirection));

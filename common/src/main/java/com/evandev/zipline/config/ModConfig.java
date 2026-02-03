@@ -20,6 +20,8 @@ public class ModConfig {
     public double maxTurnAngle = 0.707;
     public double hangOffset = 2.25;
     public boolean realisticPhysics = true;
+    public double exitJumpMultiplier = 1.0;
+    public boolean consumeDurability = true;
 
     public static ModConfig get() {
         if (INSTANCE == null) {

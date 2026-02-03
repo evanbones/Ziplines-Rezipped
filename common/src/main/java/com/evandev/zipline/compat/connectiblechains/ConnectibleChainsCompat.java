@@ -4,18 +4,15 @@ import com.evandev.connectiblechains.CommonClass;
 import com.evandev.connectiblechains.entity.ChainKnotEntity;
 import com.evandev.zipline.Cable;
 import com.evandev.zipline.Cables;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.AABB;
 
 public class ConnectibleChainsCompat {
     public static void register() {
-        Cables.registerProvider((offsetPlayerPos, squaredRadius) -> {
-            assert Minecraft.getInstance().level != null;
-
+        Cables.registerProvider((level, offsetPlayerPos, squaredRadius) -> {
             var radius = CommonClass.runtimeConfig.getMaxChainRange() + 1;
             var aabb = new AABB(offsetPlayerPos.subtract(radius, radius, radius), offsetPlayerPos.add(radius, radius, radius));
 
-            var knots = Minecraft.getInstance().level.getEntitiesOfClass(ChainKnotEntity.class, aabb, (a) -> true);
+            var knots = level.getEntitiesOfClass(ChainKnotEntity.class, aabb, (a) -> true);
 
             double nearestDist = squaredRadius;
             Cable nearestCable = null;

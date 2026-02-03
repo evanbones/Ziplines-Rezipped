@@ -1,6 +1,18 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:pickaxes"
+    "#minecraft:pickaxes",
+    {
+      "id": "create:wrench",
+      "required": false
+    },
+    {
+      "id": "#forge:tools/wrench",
+      "required": false
+    },
+    {
+      "id": "#c:wrenches",
+      "required": false
+    }
   ]
 }

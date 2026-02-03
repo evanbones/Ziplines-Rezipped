@@ -17,5 +17,9 @@
   "config.zipline.option.hang_offset.tooltip": "The vertical distance the player hangs below the cable",
 
   "config.zipline.option.realistic_physics": "Realistic Physics",
-  "config.zipline.option.realistic_physics.tooltip": "Whether or not zipline movement is affected by gravity"
+  "config.zipline.option.realistic_physics.tooltip": "Whether or not zipline movement is affected by gravity",
+  "config.zipline.option.exit_jump_multiplier": "Exit Jump Multiplier",
+  "config.zipline.option.exit_jump_multiplier.tooltip": "Multiplies the vertical jump strength when exiting a zipline. Set to 0 to disable the jump",
+  "config.zipline.option.consume_durability": "Consume Durability",
+  "config.zipline.option.consume_durability.tooltip": "If enabled, the zipline item will slowly lose durability while being used"
 }

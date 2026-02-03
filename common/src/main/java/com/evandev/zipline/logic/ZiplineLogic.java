@@ -8,6 +8,7 @@ import com.evandev.zipline.duck.ZiplinePlayerDuck;
 import com.evandev.zipline.registry.ZiplineSoundEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,8 +20,40 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class ZiplineLogic {
     private static final double ATTACH_THRESHOLD_PADDING = 1.01;
 
-    public static void tick(Level level, LivingEntity livingEntity, ItemStack itemStack, int i) {
-        if (!level.isClientSide || !(livingEntity instanceof Player player) || !player.isLocalPlayer()) {
+    public static void inventoryTick(Level level, LivingEntity livingEntity) {
+        if (!(livingEntity instanceof Player player)) {
+            return;
+        }
+
+        ZiplinePlayerDuck duck = (ZiplinePlayerDuck) player;
+
+        if (duck.zipline$isActuallyUsing() && !player.isUsingItem()) {
+            interruptUsing(player, duck);
+        }
+    }
+
+    public static void tick(Level level, LivingEntity livingEntity, ItemStack stack, int i) {
+        if (!(livingEntity instanceof Player player)) {
+            return;
+        }
+
+        if (!level.isClientSide) {
+            if (ModConfig.get().consumeDurability && player.tickCount % 40 == 0) {
+                Vec3 offsetPlayerPos = player.position().add(0, ModConfig.get().hangOffset, 0);
+                Cable cable = Cables.getClosestCable(level, offsetPlayerPos, ModConfig.get().snapRadius);
+
+                if (cable != null) {
+                    Vec3 closestPoint = cable.getClosestPoint(offsetPlayerPos);
+                    if (closestPoint.distanceToSqr(offsetPlayerPos) < 0.25) {
+                        EquipmentSlot slot = player.getOffhandItem() == stack ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
+                        stack.hurtAndBreak(1, player, slot);
+                    }
+                }
+            }
+            return;
+        }
+
+        if (!player.isLocalPlayer()) {
             return;
         }
 
@@ -29,7 +62,7 @@ public class ZiplineLogic {
         if (!duck.zipline$isActuallyUsing()) {
             attemptAttach(player, duck);
         } else {
-            ziplineTick(player, duck, itemStack);
+            ziplineTick(player, duck, stack);
         }
     }
 
@@ -41,7 +74,7 @@ public class ZiplineLogic {
         var playerPos = player.position();
         var offsetPlayerPos = playerPos.add(0, ModConfig.get().hangOffset, 0);
 
-        Cable cable = Cables.getClosestCable(offsetPlayerPos, ModConfig.get().snapRadius);
+        Cable cable = Cables.getClosestCable(player.level(), offsetPlayerPos, ModConfig.get().snapRadius);
 
         if (cable == null || !cable.isValid()) {
             return;
@@ -60,7 +93,8 @@ public class ZiplineLogic {
         duck.zipline$setActuallyUsing(true);
         duck.zipline$setCable(cable);
 
-        duck.zipline$setSpeed(player.getDeltaMovement().length());
+        double initialSpeed = Math.min(player.getDeltaMovement().length(), 0.5);
+        duck.zipline$setSpeed(initialSpeed);
 
         double progress = cable.getProgress(offsetPlayerPos);
         duck.zipline$setProgress(progress);
@@ -68,11 +102,12 @@ public class ZiplineLogic {
         int dirFactor = player.getLookAngle().dot(cable.direction(progress)) >= 0 ? 1 : -1;
         duck.zipline$setDirectionFactor(dirFactor);
 
-        var futureT = progress + dirFactor * .1 / cable.length();
+        var futureT = progress + dirFactor * 0.1 / cable.length();
         var delta = cable.getPoint(futureT).subtract(offsetPlayerPos);
 
         float rawYaw = (float) (Mth.atan2(delta.z, delta.x) * 57.2957763671875 - player.getYRot());
-        float clampedYaw = Mth.clamp(rawYaw, -30.0F, 30.0F) * 0.5F;
+
+        float clampedYaw = Mth.clamp(Mth.wrapDegrees(rawYaw), -15.0F, 15.0F) * 0.3F;
 
         ZiplineClient.ziplineTilt(clampedYaw);
 
@@ -82,6 +117,11 @@ public class ZiplineLogic {
 
     private static void ziplineTick(Player player, ZiplinePlayerDuck duck, ItemStack stack) {
         if (player.onGround()) {
+            interruptUsing(player, duck);
+            return;
+        }
+
+        if (stack.isEmpty()) {
             interruptUsing(player, duck);
             return;
         }
@@ -212,10 +252,10 @@ public class ZiplineLogic {
 
         player.getCooldowns().addCooldown(stack.getItem(), 10);
 
-        if (!level.isClientSide) return;
-
         if (duck.zipline$isActuallyUsing()) {
-            player.addDeltaMovement(new Vec3(0, 0.8, 0));
+            double jumpY = 0.8 * ModConfig.get().exitJumpMultiplier;
+            player.addDeltaMovement(new Vec3(0, jumpY, 0));
+
             applyExitMomentum(player, duck);
             disable(duck);
         }

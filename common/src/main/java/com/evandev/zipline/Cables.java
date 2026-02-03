@@ -1,5 +1,6 @@
 package com.evandev.zipline;
 
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,12 +10,12 @@ import java.util.List;
 public class Cables {
     private static final List<CableProvider> providers = new ArrayList<>();
 
-    public static @Nullable Cable getClosestCable(Vec3 offsetPlayerPos, double radius) {
+    public static @Nullable Cable getClosestCable(Level level, Vec3 offsetPlayerPos, double radius) {
         double nearestDist = radius * radius;
         Cable nearestCable = null;
 
         for (var provider : providers) {
-            var cable = provider.getNearestCable(offsetPlayerPos, nearestDist);
+            var cable = provider.getNearestCable(level, offsetPlayerPos, nearestDist);
 
             if (cable == null) {
                 continue;
@@ -43,6 +44,6 @@ public class Cables {
 
     @FunctionalInterface
     public interface CableProvider {
-        Cable getNearestCable(Vec3 offsetPlayerPos, double squaredRadius);
+        Cable getNearestCable(Level level, Vec3 offsetPlayerPos, double squaredRadius);
     }
 }

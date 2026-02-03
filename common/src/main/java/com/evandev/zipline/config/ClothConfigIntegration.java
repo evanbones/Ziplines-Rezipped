@@ -44,6 +44,18 @@ public class ClothConfigIntegration {
                 .setSaveConsumer(newValue -> config.realisticPhysics = newValue)
                 .build());
 
+        general.addEntry(entryBuilder.startDoubleField(Component.translatable("config.zipline.option.exit_jump_multiplier"), config.exitJumpMultiplier)
+                .setDefaultValue(1.0)
+                .setTooltip(Component.translatable("config.zipline.option.exit_jump_multiplier.tooltip"))
+                .setSaveConsumer(newValue -> config.exitJumpMultiplier = newValue)
+                .build());
+
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.zipline.option.consume_durability"), config.consumeDurability)
+                .setDefaultValue(true)
+                .setTooltip(Component.translatable("config.zipline.option.consume_durability.tooltip"))
+                .setSaveConsumer(newValue -> config.consumeDurability = newValue)
+                .build());
+
         return builder.build();
     }
 }
