@@ -5,27 +5,32 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerGamePacketListenerImpl.class)
 public class ServerGamePacketListenerImplMixin {
-    /**
-     * Prevent flying kick when using zipline
-     */
-    @Inject(method = "getMaximumFlyingTicks", at = @At("HEAD"), cancellable = true)
-    void getMaximumFlyingTicks(Entity entity, CallbackInfoReturnable<Integer> cir) {
-        if (!(entity instanceof Player player)) {
-            return;
-        }
+    @Shadow
+    public ServerPlayer player;
+    @Shadow
+    private int aboveGroundTickCount;
+    @Shadow
+    private int aboveGroundVehicleTickCount;
 
-        if (zipline$isUsingZipline(player)) {
-            cir.setReturnValue(Integer.MAX_VALUE);
+    /**
+     * Prevent flying kick when using zipline by resetting the flight timers
+     */
+    @Inject(method = "tick", at = @At(value = "FIELD", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;aboveGroundTickCount:I", ordinal = 0, opcode = Opcodes.GETFIELD))
+    void zipline$resetFlightTicks(CallbackInfo ci) {
+        if (zipline$isUsingZipline(this.player)) {
+            this.aboveGroundTickCount = 0;
+            this.aboveGroundVehicleTickCount = 0;
         }
     }
 

@@ -46,7 +46,7 @@ public class ZiplineLogic {
                     Vec3 closestPoint = cable.getClosestPoint(offsetPlayerPos);
                     if (closestPoint.distanceToSqr(offsetPlayerPos) < 0.25) {
                         EquipmentSlot slot = player.getOffhandItem() == stack ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
-                        stack.hurtAndBreak(1, player, slot);
+                        stack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(slot));
                     }
                 }
             }

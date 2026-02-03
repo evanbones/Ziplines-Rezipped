@@ -53,7 +53,7 @@ public class ItemMixin {
     }
 
     @Inject(method = "getUseDuration", at = @At("HEAD"), cancellable = true)
-    private void getUseDuration(ItemStack stack, LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
+    private void getUseDuration(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         if (stack.is(ZiplineTags.ATTACHMENT)) {
             cir.setReturnValue(Integer.MAX_VALUE);
         }

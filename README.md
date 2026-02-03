@@ -19,17 +19,11 @@ Ziplines inspired by the hit zipline game [Satisfactory](https://www.satisfactor
 
 ### How to Zip
 
-1. **Equip a Zipline tool** (see *Compatibility* or *Customization* below).
+1. **Equip a Zipline tool** (see *compatibility* or *customization* below).
 2. **Aim** at a compatible cable, wire, or chain.
-3. **Hold Right-Click** (Use Item) to attach and start zipping.
+3. **Hold Right-Click** to attach and start zipping.
 4. **Look** in the direction you want to travel to influence your momentum.
-5. **Jump** to detach and launch yourself off the line.
-
-### Controls
-
-* **Attach**: Hold Use (right-click by default) near a cable.
-* **Switch Lines**: While zipping, look toward the cable you want to merge onto.
-* **Detach**: Release the Use button or jump.
+5. **Jump** to detach and launch yourself off the line, or release right-click.
 
 ## Configuration
 

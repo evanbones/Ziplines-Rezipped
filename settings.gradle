@@ -46,4 +46,4 @@ plugins {
 rootProject.name = 'Zipline'
 include('common')
 include('fabric')
-include('neoforge')
+include('forge')
