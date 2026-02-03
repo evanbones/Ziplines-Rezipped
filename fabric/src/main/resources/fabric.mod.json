@@ -9,7 +9,8 @@
   ],
   "contact": {
     "homepage": "https://github.com/evanbones/Ziplines-Rezipped",
-    "sources": "https://github.com/evanbones/Ziplines-Rezipped"
+    "sources": "https://github.com/evanbones/Ziplines-Rezipped",
+    "issues": "https://github.com/evanbones/Ziplines-Rezipped/issues"
   },
   "license": "${license}",
   "icon": "${mod_id}.png",
@@ -20,6 +21,9 @@
     ],
     "client": [
       "com.evandev.zipline.client.ZiplineModClient"
+    ],
+    "modmenu": [
+      "com.evandev.zipline.compat.ModMenuIntegration"
     ]
   },
   "mixins": [

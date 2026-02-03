@@ -16,6 +16,10 @@ public class ModConfig {
 
     private static ModConfig INSTANCE;
 
+    public double snapRadius = 2.0;
+    public double maxTurnAngle = 0.707;
+    public double hangOffset = 2.25;
+
     public static ModConfig get() {
         if (INSTANCE == null) {
             load();

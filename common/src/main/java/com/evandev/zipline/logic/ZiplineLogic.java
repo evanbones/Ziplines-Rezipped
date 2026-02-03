@@ -3,6 +3,7 @@ package com.evandev.zipline.logic;
 import com.evandev.zipline.Cable;
 import com.evandev.zipline.Cables;
 import com.evandev.zipline.client.ZiplineClient;
+import com.evandev.zipline.config.ModConfig;
 import com.evandev.zipline.duck.ZiplinePlayerDuck;
 import com.evandev.zipline.registry.ZiplineSoundEvents;
 import net.minecraft.core.Direction;
@@ -16,10 +17,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ZiplineLogic {
-    private static final double HANG_OFFSET = 2.12;
-    private static final double TOP_VERTICAL_SNAP_FACTOR = 0.3;
-    private static final double SNAP_RADIUS = 2;
-    private static final double MAX_TURN_ANGLE = 0.707;
+    private static final double ATTACH_THRESHOLD_PADDING = 1.01;
 
     public static void tick(Level level, LivingEntity livingEntity, ItemStack itemStack, int i) {
         if (!level.isClientSide || !(livingEntity instanceof Player player) || !player.isLocalPlayer()) {
@@ -36,19 +34,24 @@ public class ZiplineLogic {
     }
 
     private static void attemptAttach(Player player, ZiplinePlayerDuck duck) {
-        var playerPos = player.position();
-        var offsetPlayerPos = playerPos.add(0, HANG_OFFSET, 0);
+        if (player.onGround()) {
+            return;
+        }
 
-        Cable cable = Cables.getClosestCable(offsetPlayerPos, SNAP_RADIUS);
+        var playerPos = player.position();
+        var offsetPlayerPos = playerPos.add(0, ModConfig.get().hangOffset, 0);
+
+        Cable cable = Cables.getClosestCable(offsetPlayerPos, ModConfig.get().snapRadius);
 
         if (cable == null || !cable.isValid()) {
             return;
         }
 
         var closestPoint = cable.getClosestPoint(offsetPlayerPos);
-        var playerAttachPos = closestPoint.add(0, -HANG_OFFSET, 0);
+        var playerAttachPos = closestPoint.add(0, -ModConfig.get().hangOffset, 0);
 
-        if (closestPoint.y > playerPos.y + TOP_VERTICAL_SNAP_FACTOR * HANG_OFFSET && !isInvalidPosition(player, playerAttachPos.subtract(playerPos))) {
+        if (closestPoint.y > playerPos.y + ATTACH_THRESHOLD_PADDING * ModConfig.get().hangOffset
+                && !isInvalidPosition(player, playerAttachPos.subtract(playerPos))) {
             enable(player, duck, cable, offsetPlayerPos);
         }
     }
@@ -68,8 +71,10 @@ public class ZiplineLogic {
         var futureT = progress + dirFactor * .1 / cable.length();
         var delta = cable.getPoint(futureT).subtract(offsetPlayerPos);
 
-        float yaw = (float) (Mth.atan2(delta.z, delta.x) * 57.2957763671875 - player.getYRot());
-        ZiplineClient.ziplineTilt(yaw);
+        float rawYaw = (float) (Mth.atan2(delta.z, delta.x) * 57.2957763671875 - player.getYRot());
+        float clampedYaw = Mth.clamp(rawYaw, -30.0F, 30.0F) * 0.5F;
+
+        ZiplineClient.ziplineTilt(clampedYaw);
 
         player.playSound(ZiplineSoundEvents.ZIPLINE_ATTACH.get(), 0.6f, 1);
     }
@@ -90,32 +95,50 @@ public class ZiplineLogic {
         var closestPoint = cable.getPoint(progress);
 
         double speed = duck.zipline$getSpeed();
+
+        if (speed < 0.1) {
+            int currentDir = duck.zipline$getDirectionFactor();
+            int intendedDir = player.getLookAngle().dot(cable.direction(progress)) >= 0 ? 1 : -1;
+
+            if (currentDir != intendedDir) {
+                duck.zipline$setDirectionFactor(intendedDir);
+            }
+        }
+
         if (speed < 1.6) {
             speed = Mth.lerp(0.03, speed, 1.6);
             duck.zipline$setSpeed(speed);
         }
 
+        double oldProgress = duck.zipline$getProgress();
         int dirFactor = duck.zipline$getDirectionFactor();
-        progress += dirFactor * speed / cable.length();
-        progress = Mth.clamp(progress, 0.0, 1.0);
-        duck.zipline$setProgress(progress);
 
-        Vec3 newPosition = cable.getPoint(progress);
-        Vec3 newOffsetPosition = new Vec3(newPosition.x, newPosition.y - HANG_OFFSET, newPosition.z);
+        double newProgress = oldProgress + dirFactor * speed / cable.length();
+        newProgress = Mth.clamp(newProgress, 0.0, 1.0);
+
+        duck.zipline$setProgress(newProgress);
+
+        Vec3 newPosition = cable.getPoint(newProgress);
+        Vec3 newOffsetPosition = new Vec3(newPosition.x, newPosition.y - ModConfig.get().hangOffset, newPosition.z);
 
         Vec3 lastDir = newPosition.subtract(closestPoint);
         duck.zipline$setLastDir(lastDir);
 
         if (isInvalidPosition(player, lastDir)) {
-            interruptUsing(player, duck);
-            return;
+            duck.zipline$setSpeed(0);
+
+            duck.zipline$setProgress(oldProgress);
+            newProgress = oldProgress;
+
+            newPosition = cable.getPoint(newProgress);
+            newOffsetPosition = new Vec3(newPosition.x, newPosition.y - ModConfig.get().hangOffset, newPosition.z);
         }
 
         player.setPos(newOffsetPosition);
         player.setDeltaMovement(0, 0, 0);
         player.playSound(ZiplineSoundEvents.ZIPLINE_USE.get(), 1.0F, .3f + (float) (speed));
 
-        if (progress >= 1.0 || progress <= 0.0) {
+        if (newProgress >= 1.0 || newProgress <= 0.0) {
             handleCableSwitch(player, duck, cable, dirFactor, lastDir);
         }
     }
@@ -134,7 +157,7 @@ public class ZiplineLogic {
             var lookDotProduct = next.direction(0).dot(playerDir);
             var cableDotProduct = next.direction(0).dot(cableDir);
 
-            if (lookDotProduct > highestDotProduct && cableDotProduct > MAX_TURN_ANGLE) {
+            if (lookDotProduct > highestDotProduct && cableDotProduct > ModConfig.get().maxTurnAngle) {
                 highestDotProduct = lookDotProduct;
                 nextCable = next;
             }

@@ -4,8 +4,15 @@
   "subtitles.zipline.zipline.detach": "Zipline detaches",
   "subtitles.zipline.zipline.interrupt": "Zipline gets interrupted",
 
+  "tag.item.zipline.attachment": "Zipline Attachment",
+
   "config.zipline.title": "Zipline Config",
   "config.zipline.category.general": "General",
 
-  "tag.item.zipline.attachment": "Zipline Attachment"
+  "config.zipline.option.snap_radius": "Snap Radius",
+  "config.zipline.option.snap_radius.tooltip": "The maximum distance from a cable to allow attachment",
+  "config.zipline.option.max_turn_angle": "Max Turn Angle",
+  "config.zipline.option.max_turn_angle.tooltip": "The maximum angle allowed when transitioning between connected cables",
+  "config.zipline.option.hang_offset": "Hang Offset",
+  "config.zipline.option.hang_offset.tooltip": "The vertical distance the player hangs below the cable"
 }
