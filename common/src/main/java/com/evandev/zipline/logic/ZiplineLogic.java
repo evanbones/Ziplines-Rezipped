@@ -91,29 +91,50 @@ public class ZiplineLogic {
             return;
         }
 
-        double progress = duck.zipline$getProgress();
-        var closestPoint = cable.getPoint(progress);
-
-        double speed = duck.zipline$getSpeed();
-
-        if (speed < 0.1) {
-            int currentDir = duck.zipline$getDirectionFactor();
-            int intendedDir = player.getLookAngle().dot(cable.direction(progress)) >= 0 ? 1 : -1;
-
-            if (currentDir != intendedDir) {
-                duck.zipline$setDirectionFactor(intendedDir);
-            }
-        }
-
-        if (speed < 1.6) {
-            speed = Mth.lerp(0.03, speed, 1.6);
-            duck.zipline$setSpeed(speed);
-        }
-
         double oldProgress = duck.zipline$getProgress();
-        int dirFactor = duck.zipline$getDirectionFactor();
 
-        double newProgress = oldProgress + dirFactor * speed / cable.length();
+        double currentSpeed = duck.zipline$getSpeed();
+        int currentDir = duck.zipline$getDirectionFactor();
+        double velocity = currentSpeed * currentDir;
+
+        if (ModConfig.get().realisticPhysics) {
+            double deltaT = 0.1 / Math.max(1.0, cable.length());
+            double tForward = Math.min(1.0, oldProgress + deltaT);
+            double tBackward = Math.max(0.0, oldProgress - deltaT);
+
+            Vec3 pForward = cable.getPoint(tForward);
+            Vec3 pBackward = cable.getPoint(tBackward);
+            Vec3 tangent = pForward.subtract(pBackward).normalize();
+
+            double gravityAccel = 0.04;
+            double acceleration = -gravityAccel * tangent.y;
+
+            velocity += acceleration;
+            velocity *= 0.98;
+
+            if (Math.abs(velocity) < 0.01 && Math.abs(tangent.y) < 0.1) {
+                velocity = 0;
+            }
+
+        } else {
+            if (currentSpeed < 1.6) {
+                currentSpeed = Mth.lerp(0.03, currentSpeed, 1.6);
+            }
+
+            if (currentSpeed < 0.1) {
+                int intendedDir = player.getLookAngle().dot(cable.direction(oldProgress)) >= 0 ? 1 : -1;
+                if (currentDir != intendedDir) {
+                    currentDir = intendedDir;
+                }
+            }
+            velocity = currentSpeed * currentDir;
+        }
+
+        duck.zipline$setSpeed(Math.abs(velocity));
+        duck.zipline$setDirectionFactor(velocity >= 0 ? 1 : -1);
+
+        double moveDelta = velocity / cable.length();
+        double newProgress = oldProgress + moveDelta;
         newProgress = Mth.clamp(newProgress, 0.0, 1.0);
 
         duck.zipline$setProgress(newProgress);
@@ -121,25 +142,26 @@ public class ZiplineLogic {
         Vec3 newPosition = cable.getPoint(newProgress);
         Vec3 newOffsetPosition = new Vec3(newPosition.x, newPosition.y - ModConfig.get().hangOffset, newPosition.z);
 
-        Vec3 lastDir = newPosition.subtract(closestPoint);
+        Vec3 oldPosition = cable.getPoint(oldProgress);
+        Vec3 lastDir = newPosition.subtract(oldPosition);
         duck.zipline$setLastDir(lastDir);
 
         if (isInvalidPosition(player, lastDir)) {
             duck.zipline$setSpeed(0);
-
             duck.zipline$setProgress(oldProgress);
             newProgress = oldProgress;
 
-            newPosition = cable.getPoint(newProgress);
+            newPosition = oldPosition;
             newOffsetPosition = new Vec3(newPosition.x, newPosition.y - ModConfig.get().hangOffset, newPosition.z);
         }
 
         player.setPos(newOffsetPosition);
         player.setDeltaMovement(0, 0, 0);
-        player.playSound(ZiplineSoundEvents.ZIPLINE_USE.get(), 1.0F, .3f + (float) (speed));
-
+        if (Math.abs(velocity) > 0.01) {
+            player.playSound(ZiplineSoundEvents.ZIPLINE_USE.get(), 1.0F, .3f + (float) Math.abs(velocity));
+        }
         if (newProgress >= 1.0 || newProgress <= 0.0) {
-            handleCableSwitch(player, duck, cable, dirFactor, lastDir);
+            handleCableSwitch(player, duck, cable, velocity >= 0 ? 1 : -1, lastDir);
         }
     }
 

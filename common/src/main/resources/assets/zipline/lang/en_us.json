@@ -14,5 +14,8 @@
   "config.zipline.option.max_turn_angle": "Max Turn Angle",
   "config.zipline.option.max_turn_angle.tooltip": "The maximum angle allowed when transitioning between connected cables",
   "config.zipline.option.hang_offset": "Hang Offset",
-  "config.zipline.option.hang_offset.tooltip": "The vertical distance the player hangs below the cable"
+  "config.zipline.option.hang_offset.tooltip": "The vertical distance the player hangs below the cable",
+
+  "config.zipline.option.realistic_physics": "Realistic Physics",
+  "config.zipline.option.realistic_physics.tooltip": "Whether or not zipline movement is affected by gravity"
 }

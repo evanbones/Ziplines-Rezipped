@@ -38,6 +38,12 @@ public class ClothConfigIntegration {
                 .setSaveConsumer(newValue -> config.hangOffset = newValue)
                 .build());
 
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.zipline.option.realistic_physics"), config.realisticPhysics)
+                .setDefaultValue(true)
+                .setTooltip(Component.translatable("config.zipline.option.realistic_physics.tooltip"))
+                .setSaveConsumer(newValue -> config.realisticPhysics = newValue)
+                .build());
+
         return builder.build();
     }
 }

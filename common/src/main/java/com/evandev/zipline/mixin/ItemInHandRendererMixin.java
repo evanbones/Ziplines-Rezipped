@@ -43,9 +43,7 @@ public abstract class ItemInHandRendererMixin {
 
         zipline$shake(itemStack, abstractClientPlayer, tickDelta, poseStack);
 
-        double pp = 0;
-        poseStack.translate(0, pp, 0);
-        poseStack.translate(0, -.4, .2);
+        poseStack.translate(0, -0.4, 0.2);
 
         poseStack.mulPose(Axis.XP.rotationDegrees(10));
         poseStack.mulPose(Axis.YN.rotationDegrees((float) q * -10.0f));
@@ -58,9 +56,9 @@ public abstract class ItemInHandRendererMixin {
 
         zipline$shake(itemStack, abstractClientPlayer, tickDelta, poseStack);
 
-        poseStack.translate((float) q * 0.1, -0.52f, -0.72f);
-        poseStack.translate(0, 1.6, -.4);
-        poseStack.translate(0, pp, 0);
+        poseStack.translate(q * 0.4, 0.3, -0.8);
+        poseStack.mulPose(Axis.ZP.rotationDegrees((float) q * 15));
+        poseStack.mulPose(Axis.XP.rotationDegrees(15));
 
         this.renderItem(abstractClientPlayer, itemStack, bl2 ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, !bl2, poseStack, multiBufferSource, lightCoords);
 
@@ -76,7 +74,7 @@ public abstract class ItemInHandRendererMixin {
         float m = Mth.sin((useFactor - 0.1f) * 1.3f);
         float q = Mth.sin((useFactor * .3f - 0.4f) * 1.3f);
 
-        float influence = Math.clamp((useFactor * .1f) - 0.1f, 0, 1);
+        float influence = Mth.clamp((useFactor * .1f) - 0.1f, 0, 1);
 
         float o = m * influence;
         float l = q * influence;
