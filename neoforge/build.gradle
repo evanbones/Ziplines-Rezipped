@@ -63,6 +63,7 @@ publishMods {
         minecraftVersions.add("${minecraft_version}")
 
         optional { slug = "cloth-config" }
+        optional { slug = "reconnectible-chains" }
     }
 
     modrinth {
@@ -71,5 +72,6 @@ publishMods {
         minecraftVersions.add("${minecraft_version}")
 
         optional { slug = "cloth-config" }
+        optional { slug = "reconnectible-chains" }
     }
 }

@@ -12,7 +12,7 @@ dependencies {
     }
 
     // EMI
-    modImplementation "dev.emi:emi-fabric:${emi_version}"
+    modRuntimeOnly "dev.emi:emi-fabric:${emi_version}"
 
     // Cloth Config
     modImplementation "me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}"
@@ -30,6 +30,10 @@ loom {
     def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
     if (aw.exists()) {
         accessWidenerPath.set(aw)
+    }
+
+    mixin {
+        defaultRefmapName.set("${mod_id}.refmap.json")
     }
 
     runs {
@@ -61,6 +65,7 @@ publishMods {
         minecraftVersions.add("${minecraft_version}")
 
         optional { slug = "cloth-config" }
+        optional { slug = "reconnectible-chains" }
     }
 
     modrinth {
@@ -69,5 +74,6 @@ publishMods {
         minecraftVersions.add("${minecraft_version}")
 
         optional { slug = "cloth-config" }
+        optional { slug = "reconnectible-chains" }
     }
 }

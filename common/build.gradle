@@ -25,7 +25,6 @@ dependencies {
     compileOnly "local:connectiblechains-neoforge-1.21.1-1.0.0"
     //compileOnly "maven.modrinth:reconnectible-chains:${reconnectible_chains_neoforge_version}"
 
-    // Optional Dependencies
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
     compileOnly group: 'org.ow2.asm', name: 'asm-tree', version: '9.6'
     compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.4.1'
