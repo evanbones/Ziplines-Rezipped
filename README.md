@@ -37,7 +37,7 @@ This mod **does not add any cables on its own**. Instead, it turns existing cabl
 Supported mods include:
 
 - [Reconnectible Chains](https://modrinth.com/mod/reconnectible-chains)
-- [Create Crafts & Additions](https://modrinth.com/mod/createaddition)
+- ~~[Create Crafts & Additions](https://modrinth.com/mod/createaddition)~~ (temporarily disabled)
 - [Station Decoration (Minecraft Transit Railway addon)](https://modrinth.com/mod/station-decoration)
 
 ## Customization

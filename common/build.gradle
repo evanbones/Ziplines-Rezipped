@@ -20,7 +20,10 @@ dependencies {
 
     // Reconnectible Chains
     compileOnly "local:connectiblechains-forge-1.20.1-1.0.0"
-    //compileOnly "maven.modrinth:reconnectible-chains:${reconnectible_chains_neoforge_version}"
+    //compileOnly "maven.modrinth:reconnectible-chains:${reconnectible_chains_forge_version}"
+
+    compileOnly "maven.modrinth:station-decoration:Toh7oVVr"
+    compileOnly "maven.modrinth:minecraft-transit-railway:Fc07qRMD"
 
     compileOnly 'org.jetbrains:annotations:26.0.2-1'
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'

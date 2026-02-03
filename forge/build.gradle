@@ -59,6 +59,10 @@ dependencies {
     modImplementation "local:connectiblechains-forge-1.20.1-1.0.0"
     // modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_forge_version}"
 
+    // Create
+    modImplementation "maven.modrinth:station-decoration:Toh7oVVr"
+    modImplementation "maven.modrinth:minecraft-transit-railway:Fc07qRMD"
+
     compileOnly project(":common")
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
 }

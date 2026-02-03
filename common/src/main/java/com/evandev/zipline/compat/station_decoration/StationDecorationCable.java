@@ -1,6 +1,6 @@
-package dev.doublekekse.zipline.compat.station_decoration;
+package com.evandev.zipline.compat.station_decoration;
 
-import dev.doublekekse.zipline.Cable;
+import com.evandev.zipline.Cable;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.mtr.core.data.Position;
@@ -11,13 +11,13 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public record StationDecorationCable(
-    MSDMinecraftClientData data,
-    Position startPos,
-    Position endPos,
-    Vec3 start,
-    Vec3 end,
-    Vec3 direction,
-    double length
+        MSDMinecraftClientData data,
+        Position startPos,
+        Position endPos,
+        Vec3 start,
+        Vec3 end,
+        Vec3 direction,
+        double length
 ) implements Cable {
     public static StationDecorationCable of(MSDMinecraftClientData data, Position startPos, Position endPos) {
         var start = toVec3(startPos);
@@ -29,9 +29,13 @@ public record StationDecorationCable(
         return new StationDecorationCable(data, startPos, endPos, start, end, direction, length);
     }
 
+    static Vec3 toVec3(Position position) {
+        return new Vec3(position.getX() + .5, position.getY(), position.getZ() + .5);
+    }
+
     public double getProgress(Vec3 playerPos) {
         Vec3 playerToStart = playerPos.subtract(start);
-        double t = playerToStart.dot(direction) / length; // Parametric position
+        double t = playerToStart.dot(direction) / length;
         t = Mth.clamp(t, 0.0, 1.0);
 
         return t;
@@ -47,6 +51,11 @@ public record StationDecorationCable(
     }
 
     @Override
+    public Vec3 direction(double progress) {
+        return direction;
+    }
+
+    @Override
     public Collection<Cable> getNext(boolean forward) {
         if (forward) {
             var nextEnd = data.positionsToCatenary.get(endPos);
@@ -55,10 +64,6 @@ public record StationDecorationCable(
             var nextStart = data.positionsToCatenary.get(startPos);
             return nextStart.keySet().stream().map(newEndPos -> of(data, startPos, newEndPos)).collect(Collectors.toSet());
         }
-    }
-
-    static Vec3 toVec3(Position position) {
-        return new Vec3(position.getX() + .5, position.getY(), position.getZ() + .5);
     }
 
     @Override
