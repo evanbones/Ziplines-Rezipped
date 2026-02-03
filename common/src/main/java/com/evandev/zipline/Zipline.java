@@ -1,6 +1,5 @@
 package com.evandev.zipline;
 
-import com.evandev.zipline.registry.ZiplineItems;
 import com.evandev.zipline.registry.ZiplineSoundEvents;
 import net.minecraft.resources.ResourceLocation;
 
@@ -12,7 +11,6 @@ public class Zipline {
     }
 
     public static void init() {
-        ZiplineItems.register();
         ZiplineSoundEvents.register();
     }
 }

@@ -55,11 +55,10 @@ public class HumanoidModelMixin<T extends LivingEntity> {
 
     @Unique
     void zipline$positionArm(ModelPart arm) {
-        int a = arm == rightArm ? 1 : -1;
+        arm.xRot = (float) -Math.PI;
+        arm.zRot = 0;
 
-        arm.xRot = (float) (-0.9f * Math.PI);
-        arm.zRot = .5f * a;
         arm.y = 5;
-        arm.z = -2;
+        arm.z = 0;
     }
 }

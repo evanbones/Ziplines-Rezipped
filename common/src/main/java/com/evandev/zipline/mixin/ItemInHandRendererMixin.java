@@ -83,4 +83,20 @@ public abstract class ItemInHandRendererMixin {
 
         poseStack.translate(l * 0.003f, o * 0.001f, o * 0.001f);
     }
+
+    @Inject(method = "renderItem", at = @At("HEAD"))
+    void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, boolean bl, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
+        if (!(livingEntity instanceof AbstractClientPlayer player)) {
+            return;
+        }
+
+        if (!player.isUsingItem() || !player.getUseItem().is(ZiplineTags.ATTACHMENT) || itemStack != player.getUseItem()) {
+            return;
+        }
+
+        if (itemDisplayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND || itemDisplayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND) {
+            poseStack.translate(0, -0.25, 0.0);
+            poseStack.mulPose(Axis.XP.rotationDegrees(-90));
+        }
+    }
 }

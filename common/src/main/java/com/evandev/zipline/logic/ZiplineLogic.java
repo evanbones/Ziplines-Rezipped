@@ -18,7 +18,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class ZiplineLogic {
     private static final double HANG_OFFSET = 2.12;
     private static final double TOP_VERTICAL_SNAP_FACTOR = 0.3;
-    private static final double SNAP_RADIUS = 3;
+    private static final double SNAP_RADIUS = 2;
     private static final double MAX_TURN_ANGLE = 0.707;
 
     public static void tick(Level level, LivingEntity livingEntity, ItemStack itemStack, int i) {
@@ -75,6 +75,11 @@ public class ZiplineLogic {
     }
 
     private static void ziplineTick(Player player, ZiplinePlayerDuck duck, ItemStack stack) {
+        if (player.onGround()) {
+            interruptUsing(player, duck);
+            return;
+        }
+
         Cable cable = duck.zipline$getCable();
         if (cable == null || !cable.isValid()) {
             interruptUsing(player, duck);
