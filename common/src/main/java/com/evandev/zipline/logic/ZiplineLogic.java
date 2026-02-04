@@ -20,7 +20,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class ZiplineLogic {
     private static final double ATTACH_THRESHOLD_PADDING = 1.01;
 
-    public static void inventoryTick(Level level, LivingEntity livingEntity) {
+    public static void inventoryTick(LivingEntity livingEntity) {
         if (!(livingEntity instanceof Player player)) {
             return;
         }
@@ -133,10 +133,7 @@ public class ZiplineLogic {
         }
 
         double oldProgress = duck.zipline$getProgress();
-
-        double currentSpeed = duck.zipline$getSpeed();
-        int currentDir = duck.zipline$getDirectionFactor();
-        double velocity = currentSpeed * currentDir;
+        double velocity = duck.zipline$getSpeed() * duck.zipline$getDirectionFactor();
 
         if (ModConfig.get().realisticPhysics) {
             double deltaT = 0.1 / Math.max(1.0, cable.length());
@@ -158,17 +155,8 @@ public class ZiplineLogic {
             }
 
         } else {
-            if (currentSpeed < 1.6) {
-                currentSpeed = Mth.lerp(0.03, currentSpeed, 1.6);
-            }
-
-            if (currentSpeed < 0.1) {
-                int intendedDir = player.getLookAngle().dot(cable.direction(oldProgress)) >= 0 ? 1 : -1;
-                if (currentDir != intendedDir) {
-                    currentDir = intendedDir;
-                }
-            }
-            velocity = currentSpeed * currentDir;
+            int intendedDir = player.getLookAngle().dot(cable.direction(oldProgress)) >= 0 ? 1 : -1;
+            velocity = Mth.lerp(0.05, velocity, 1.6 * intendedDir);
         }
 
         duck.zipline$setSpeed(Math.abs(velocity));
@@ -247,13 +235,13 @@ public class ZiplineLogic {
         duck.zipline$setSpeed(0);
     }
 
-    public static void release(Player player, ItemStack stack, Level level) {
+    public static void release(Player player, ItemStack stack) {
         ZiplinePlayerDuck duck = (ZiplinePlayerDuck) player;
 
         player.getCooldowns().addCooldown(stack.getItem(), 10);
 
         if (duck.zipline$isActuallyUsing()) {
-            double jumpY = 0.8 * ModConfig.get().exitJumpMultiplier;
+            double jumpY = 0.5 * ModConfig.get().exitJumpMultiplier;
             player.addDeltaMovement(new Vec3(0, jumpY, 0));
 
             applyExitMomentum(player, duck);
