@@ -21,5 +21,9 @@
   "config.zipline.option.exit_jump_multiplier": "Exit Jump Multiplier",
   "config.zipline.option.exit_jump_multiplier.tooltip": "Multiplies the vertical jump strength when exiting a zipline. Set to 0 to disable the jump",
   "config.zipline.option.consume_durability": "Consume Durability",
-  "config.zipline.option.consume_durability.tooltip": "If enabled, the zipline item will slowly lose durability while being used"
+  "config.zipline.option.consume_durability.tooltip": "If enabled, the zipline item will slowly lose durability while being used",
+  "config.zipline.option.click_reach": "Click Reach",
+  "config.zipline.option.click_reach.tooltip": "The maximum distance from a cable to allow manual attachment via right-click",
+  "config.zipline.option.use_anywhere": "Use Anywhere",
+  "config.zipline.option.use_anywhere.tooltip": "Whether or not zipline items can be used from anywhere in the world, for emoting purposes"
 }

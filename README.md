@@ -10,8 +10,8 @@ Ziplines inspired by the hit zipline game [Satisfactory](https://www.satisfactor
 
 ## Features
 
-* **Momentum-Based Physics**: Gain speed going down, lose speed going up. Includes a toggle to disable realistic physics
-  for those who prefer a more arcade-y feel.
+* **Momentum-Based Physics**: Gain speed going down, lose speed going up. Includes a toggle to disable
+  realistic physics for those who prefer a more arcade-y feel (default).
 * **Seamless Switching**: Look toward a connecting cable at a junction to automatically switch lines without stopping.
 * **Durability**: Usage wears down your zipline tool (configurable).
 

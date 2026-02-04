@@ -17,9 +17,11 @@ public class ModConfig {
     private static ModConfig INSTANCE;
 
     public double snapRadius = 2.0;
+    public double clickReach = 3.0;
+    public boolean useAnywhere = false;
     public double maxTurnAngle = 0.707;
     public double hangOffset = 2.1;
-    public boolean realisticPhysics = true;
+    public boolean realisticPhysics = false;
     public double exitJumpMultiplier = 1.4;
     public boolean consumeDurability = true;
 
