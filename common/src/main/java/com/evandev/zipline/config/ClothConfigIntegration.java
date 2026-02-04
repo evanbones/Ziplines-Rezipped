@@ -33,7 +33,7 @@ public class ClothConfigIntegration {
                 .build());
 
         general.addEntry(entryBuilder.startDoubleField(Component.translatable("config.zipline.option.hang_offset"), config.hangOffset)
-                .setDefaultValue(2.25)
+                .setDefaultValue(2.1)
                 .setTooltip(Component.translatable("config.zipline.option.hang_offset.tooltip"))
                 .setSaveConsumer(newValue -> config.hangOffset = newValue)
                 .build());
@@ -45,7 +45,7 @@ public class ClothConfigIntegration {
                 .build());
 
         general.addEntry(entryBuilder.startDoubleField(Component.translatable("config.zipline.option.exit_jump_multiplier"), config.exitJumpMultiplier)
-                .setDefaultValue(1.0)
+                .setDefaultValue(1.4)
                 .setTooltip(Component.translatable("config.zipline.option.exit_jump_multiplier.tooltip"))
                 .setSaveConsumer(newValue -> config.exitJumpMultiplier = newValue)
                 .build());

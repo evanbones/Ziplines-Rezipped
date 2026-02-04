@@ -60,8 +60,8 @@ dependencies {
     // modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_forge_version}"
 
     // Create
-    modImplementation "maven.modrinth:station-decoration:Toh7oVVr"
-    modImplementation "maven.modrinth:minecraft-transit-railway:Fc07qRMD"
+    modCompileOnly "maven.modrinth:station-decoration:Toh7oVVr"
+    modCompileOnly "maven.modrinth:minecraft-transit-railway:Fc07qRMD"
 
     compileOnly project(":common")
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")

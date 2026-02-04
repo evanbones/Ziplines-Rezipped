@@ -48,7 +48,7 @@ public class ItemMixin {
     @Inject(method = "releaseUsing", at = @At("HEAD"))
     private void releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, CallbackInfo ci) {
         if (livingEntity instanceof Player player && stack.is(ZiplineTags.ATTACHMENT)) {
-            ZiplineLogic.release(player, stack, level);
+            ZiplineLogic.release(player, stack);
         }
     }
 
@@ -69,7 +69,7 @@ public class ItemMixin {
     @Inject(method = "inventoryTick", at = @At("HEAD"))
     private void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected, CallbackInfo ci) {
         if (stack.is(ZiplineTags.ATTACHMENT) && entity instanceof LivingEntity living) {
-            ZiplineLogic.inventoryTick(level, living);
+            ZiplineLogic.inventoryTick(living);
         }
     }
 }

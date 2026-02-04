@@ -18,9 +18,9 @@ public class ModConfig {
 
     public double snapRadius = 2.0;
     public double maxTurnAngle = 0.707;
-    public double hangOffset = 2.25;
+    public double hangOffset = 2.1;
     public boolean realisticPhysics = true;
-    public double exitJumpMultiplier = 1.0;
+    public double exitJumpMultiplier = 1.4;
     public boolean consumeDurability = true;
 
     public static ModConfig get() {
