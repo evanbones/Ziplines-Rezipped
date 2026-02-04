@@ -64,3 +64,9 @@ You can add items to this tag via a Data Pack:
 
 Developers can add support for their own cables by implementing the `Cable` interface and registering a `CableProvider`
 via `Cables.registerProvider`.
+
+---
+
+## License
+
+[![Code license (MIT)](https://img.shields.io/badge/code%20license-MIT-green.svg?style=flat-square)](https://github.com/evanbones/Ziplines-Rezipped/blob/1.21.1/LICENSE.txt)
