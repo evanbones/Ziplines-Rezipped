@@ -92,10 +92,14 @@ public abstract class ItemInHandRendererMixin {
             return;
         }
 
-        if (itemDisplayContext == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND || itemDisplayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND) {
-            poseStack.translate(-0.2, -0.25, 0.0);
-            poseStack.mulPose(Axis.XP.rotationDegrees(-90));
-            poseStack.mulPose(Axis.YP.rotationDegrees(90));
+        if (itemDisplayContext != ItemDisplayContext.THIRD_PERSON_RIGHT_HAND && itemDisplayContext != ItemDisplayContext.THIRD_PERSON_LEFT_HAND) {
+            return;
         }
+
+        boolean isLeft = itemDisplayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
+
+        poseStack.translate(isLeft ? 0.2 : -0.2, -0.25, 0.0);
+        poseStack.mulPose(Axis.XP.rotationDegrees(-90));
+        poseStack.mulPose(Axis.YP.rotationDegrees(isLeft ? -90 : 90));
     }
 }

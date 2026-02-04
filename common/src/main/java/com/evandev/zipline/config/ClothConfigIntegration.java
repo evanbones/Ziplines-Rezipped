@@ -26,6 +26,19 @@ public class ClothConfigIntegration {
                 .setSaveConsumer(newValue -> config.snapRadius = newValue)
                 .build());
 
+        general.addEntry(entryBuilder.startDoubleField(Component.translatable("config.zipline.option.click_reach"), config.clickReach)
+                .setDefaultValue(3.0)
+                .setTooltip(Component.translatable("config.zipline.option.click_reach.tooltip"))
+                .setSaveConsumer(newValue -> config.clickReach = newValue)
+                .build());
+
+
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.zipline.option.use_anywhere"), config.useAnywhere)
+                .setDefaultValue(false)
+                .setTooltip(Component.translatable("config.zipline.option.use_anywhere.tooltip"))
+                .setSaveConsumer(newValue -> config.useAnywhere = newValue)
+                .build());
+
         general.addEntry(entryBuilder.startDoubleField(Component.translatable("config.zipline.option.max_turn_angle"), config.maxTurnAngle)
                 .setDefaultValue(0.707)
                 .setTooltip(Component.translatable("config.zipline.option.max_turn_angle.tooltip"))
@@ -39,7 +52,7 @@ public class ClothConfigIntegration {
                 .build());
 
         general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.zipline.option.realistic_physics"), config.realisticPhysics)
-                .setDefaultValue(true)
+                .setDefaultValue(false)
                 .setTooltip(Component.translatable("config.zipline.option.realistic_physics.tooltip"))
                 .setSaveConsumer(newValue -> config.realisticPhysics = newValue)
                 .build());

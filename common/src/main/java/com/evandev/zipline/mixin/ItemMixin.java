@@ -29,9 +29,9 @@ public class ItemMixin {
         ItemStack stack = player.getItemInHand(hand);
         if (stack.is(ZiplineTags.ATTACHMENT)) {
             Vec3 offset = player.position().add(0, ModConfig.get().hangOffset, 0);
-            Cable cable = Cables.getClosestCable(level, offset, ModConfig.get().snapRadius);
+            Cable cable = Cables.getClosestCable(level, offset, ModConfig.get().clickReach);
 
-            if (cable != null) {
+            if (cable != null || ModConfig.get().useAnywhere) {
                 player.startUsingItem(hand);
                 cir.setReturnValue(InteractionResultHolder.consume(stack));
             }
@@ -41,7 +41,7 @@ public class ItemMixin {
     @Inject(method = "onUseTick", at = @At("HEAD"))
     private void onUseTick(Level level, LivingEntity livingEntity, ItemStack stack, int remainingUseDuration, CallbackInfo ci) {
         if (stack.is(ZiplineTags.ATTACHMENT)) {
-            ZiplineLogic.tick(level, livingEntity, stack, remainingUseDuration);
+            ZiplineLogic.tick(level, livingEntity, stack);
         }
     }
 

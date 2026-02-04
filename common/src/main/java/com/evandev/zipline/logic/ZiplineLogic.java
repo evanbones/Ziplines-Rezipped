@@ -32,7 +32,7 @@ public class ZiplineLogic {
         }
     }
 
-    public static void tick(Level level, LivingEntity livingEntity, ItemStack stack, int i) {
+    public static void tick(Level level, LivingEntity livingEntity, ItemStack stack) {
         if (!(livingEntity instanceof Player player)) {
             return;
         }
@@ -195,7 +195,7 @@ public class ZiplineLogic {
     private static void handleCableSwitch(Player player, ZiplinePlayerDuck duck, Cable currentCable, int dirFactor, Vec3 lastDir) {
         var nextCables = currentCable.getNext(dirFactor == 1);
         var playerDir = player.getLookAngle();
-        var cableDir = lastDir.normalize();
+        var movementDir = lastDir.normalize();
 
         double highestDotProduct = -1;
         Cable nextCable = null;
@@ -203,12 +203,16 @@ public class ZiplineLogic {
         for (var next : nextCables) {
             if (currentCable.equals(next)) continue;
 
-            var lookDotProduct = next.direction(0).dot(playerDir);
-            var cableDotProduct = next.direction(0).dot(cableDir);
+            double startAlignment = next.direction(0).dot(movementDir);
+            double endAlignment = next.direction(1).dot(movementDir.scale(-1));
+            double bestAlignment = Math.max(startAlignment, endAlignment);
 
-            if (lookDotProduct > highestDotProduct && cableDotProduct > ModConfig.get().maxTurnAngle) {
-                highestDotProduct = lookDotProduct;
-                nextCable = next;
+            if (bestAlignment > ModConfig.get().maxTurnAngle) {
+                var lookDotProduct = next.direction(0).dot(playerDir);
+                if (lookDotProduct > highestDotProduct) {
+                    highestDotProduct = lookDotProduct;
+                    nextCable = next;
+                }
             }
         }
 
@@ -217,9 +221,17 @@ public class ZiplineLogic {
             return;
         }
 
+        Vec3 exitPos = currentCable.getPoint(dirFactor == 1 ? 1.0 : 0.0);
+        double distToStart = exitPos.distanceToSqr(nextCable.getPoint(0));
+        double distToEnd = exitPos.distanceToSqr(nextCable.getPoint(1));
+
+        boolean startAtBeginning = distToStart <= distToEnd;
+
         duck.zipline$setCable(nextCable);
-        duck.zipline$setDirectionFactor(1);
-        duck.zipline$setProgress(0);
+        duck.zipline$setProgress(startAtBeginning ? 0.0 : 1.0);
+
+        int newDir = nextCable.direction(startAtBeginning ? 0 : 1).dot(movementDir) >= 0 ? 1 : -1;
+        duck.zipline$setDirectionFactor(newDir);
     }
 
     private static void interruptUsing(Player player, ZiplinePlayerDuck duck) {
