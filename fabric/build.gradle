@@ -19,8 +19,7 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:${mod_menu_version}"
 
     // Optional Dependencies
-    modImplementation "local:connectiblechains-fabric-1.21.1-1.0.0"
-    // modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_fabric_version}"
+    modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_fabric_version}"
 
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
@@ -61,7 +60,7 @@ publishMods {
 
     curseforge {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        projectId = ""
+        projectId = "1454717"
         minecraftVersions.add("${minecraft_version}")
 
         optional { slug = "cloth-config" }
@@ -70,7 +69,7 @@ publishMods {
 
     modrinth {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        projectId = ""
+        projectId = "C1MoWQlb"
         minecraftVersions.add("${minecraft_version}")
 
         optional { slug = "cloth-config" }

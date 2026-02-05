@@ -46,8 +46,7 @@ dependencies {
     implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
 
     // Reconnectible Chains
-    implementation "local:connectiblechains-neoforge-1.21.1-1.0.0"
-    // implementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_neoforge_version}"
+    implementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_neoforge_version}"
 }
 
 publishMods {
@@ -59,7 +58,7 @@ publishMods {
 
     curseforge {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        projectId = ""
+        projectId = "1454717"
         minecraftVersions.add("${minecraft_version}")
 
         optional { slug = "cloth-config" }
@@ -68,7 +67,7 @@ publishMods {
 
     modrinth {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        projectId = ""
+        projectId = "C1MoWQlb"
         minecraftVersions.add("${minecraft_version}")
 
         optional { slug = "cloth-config" }
