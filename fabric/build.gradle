@@ -28,8 +28,7 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:${mod_menu_version}"
 
     // Optional Dependencies
-    modImplementation "local:connectiblechains-fabric-1.20.1-1.0.0"
-    // modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_fabric_version}"
+    modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_fabric_version}"
 
     modCompileOnly "maven.modrinth:station-decoration:Toh7oVVr"
     modCompileOnly "maven.modrinth:minecraft-transit-railway:FABRIC-4.0.0-beta.13+1.20.1"
