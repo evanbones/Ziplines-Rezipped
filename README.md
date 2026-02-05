@@ -4,7 +4,8 @@
 <a href='https://fabricmc.net'><img alt="fabric" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg"></a>
 <a href='https://neoforged.net/'><img alt="neoforge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/neoforge_vector.svg"></a>
 
-Ziplines inspired by the hit zipline game [Satisfactory](https://www.satisfactorygame.com/)!
+This is a multiloader fork of Tomate0613's [Zipline](https://modrinth.com/mod/zipline): Ziplines inspired by the hit
+zipline game [Satisfactory](https://www.satisfactorygame.com/)!
 
 ![zoop](./assets/zoop.webp)
 
