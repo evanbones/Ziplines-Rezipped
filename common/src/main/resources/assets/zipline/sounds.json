@@ -1,10 +1,10 @@
 {
   "zipline_use": {
     "sounds": [
-      {
-        "name": "minecraft:minecart/base",
-        "volume": 0.6
-      }
+      "minecraft:mob/irongolem/walk1",
+      "minecraft:mob/irongolem/walk2",
+      "minecraft:mob/irongolem/walk3",
+      "minecraft:mob/irongolem/walk4"
     ],
     "subtitle": "subtitles.zipline.zipline.use"
   },

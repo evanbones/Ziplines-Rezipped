@@ -16,8 +16,4 @@ public class ZiplineClient {
     public static void ziplineTilt(float yaw) {
         ((GameRendererDuck) Minecraft.getInstance().gameRenderer).zipline$setZiplineTilt(yaw);
     }
-
-    public static void startZiplineSound(Player player) {
-        Minecraft.getInstance().getSoundManager().play(new ZiplineSoundInstance(player));
-    }
 }
