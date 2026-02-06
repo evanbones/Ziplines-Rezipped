@@ -1,35 +1,28 @@
 # Zipline: Rezipped!
 
-<a href='https://files.minecraftforge.net'><img alt="forge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg"></a>
-<a href='https://fabricmc.net'><img alt="fabric" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg"></a>
-<a href='https://neoforged.net/'><img alt="neoforge" height="56" src="https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/neoforge_vector.svg"></a>
+[![forge](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/forge_vector.svg)](https://files.minecraftforge.net/) [![fabric](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/fabric_vector.svg)](https://fabricmc.net/) [![neoforge](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/supported/neoforge_vector.svg)](https://neoforged.net/)
 
-This is a multiloader fork of Tomate0613's [Zipline](https://modrinth.com/mod/zipline): Ziplines inspired by the hit
-zipline game [Satisfactory](https://www.satisfactorygame.com/)!
+This is a multiloader fork of Tomate0613's [Zipline](https://modrinth.com/mod/zipline): Ziplines inspired by the hit zipline game [Satisfactory](https://www.satisfactorygame.com/)!
 
-![zoop](./assets/zoop.webp)
+## What's New?
 
-## Features
-
-* **Momentum-Based Physics**: Gain speed going down, lose speed going up. Includes a toggle to disable
-  realistic physics for those who prefer a more arcade-y feel (default).
-* **Seamless Switching**: Look toward a connecting cable at a junction to automatically switch lines without stopping.
-* **Durability**: Usage wears down your zipline tool (configurable).
+*   **Momentum-Based Physics!** Gain speed going down, lose speed going up. Includes a toggle to disable realistic physics for those who prefer a more arcade-y feel (default).
+*   **Works With Any Tools!** Add your modded tools to the item tag `#zipline:attachment` to zip around with them.
+*   **Durability!** Usage wears down your zipline tool (configurable).
 
 ## Usage
 
 ### How to Zip
 
-1. **Equip a Zipline tool** (see *compatibility* or *customization* below).
-2. **Aim** at a compatible cable, wire, or chain.
-3. **Hold Right-Click** to attach and start zipping.
-4. **Look** in the direction you want to travel to influence your momentum.
-5. **Jump** to detach and launch yourself off the line, or release right-click.
+1.  **Equip a Zipline tool** (see _compatibility_ or _customization_ below).
+2.  **Aim** at a compatible cable, wire, or chain.
+3.  **Hold Right-Click** to attach and start zipping.
+4.  **Look** in the direction you want to travel to influence your momentum.
+5.  **Jump** to detach and launch yourself off the line, or release right-click.
 
 ## Configuration
 
-This mod uses **Cloth Config** (optional but recommended) to allow customization of the mechanics. You can access the
-config screen via Mod Menu or by editing `config/zipline.json`.
+This mod uses **Cloth Config** (optional but recommended) to allow customization of the mechanics. You can access the config screen via Mod Menu or by editing `config/zipline.json`.
 
 ## Compatibility
 
@@ -37,21 +30,19 @@ This mod **does not add any cables on its own**. Instead, it turns existing cabl
 
 Supported mods include:
 
-- [Reconnectible Chains](https://modrinth.com/mod/reconnectible-chains)
-- [Create Crafts & Additions](https://modrinth.com/mod/createaddition)
-- [Station Decoration (Minecraft Transit Railway addon)](https://modrinth.com/mod/station-decoration)
+*   [Reconnectible Chains](https://modrinth.com/mod/reconnectible-chains)
+*   ~~[Create Crafts & Additions](https://modrinth.com/mod/createaddition)~~ (temporarily disabled)
+*   [Station Decoration (Minecraft Transit Railway addon)](https://modrinth.com/mod/station-decoration)
 
 ## Customization
 
 ### Adding Zipline Tools
 
-This mod defines the specific tag `zipline:attachment`. Any item added to this tag will function as a zipline tool.
-By default, this includes Pickaxes and items tagged as Wrenches.
+This mod defines the specific tag `zipline:attachment`. Any item added to this tag will function as a zipline tool. By default, this includes Pickaxes and items tagged as Wrenches.
 
-You can add items to this tag via a Data Pack:
-`data/zipline/tags/item/attachment.json`
+You can add items to this tag via a Data Pack: `data/zipline/tags/item/attachment.json`
 
-```json
+```
 {
   "replace": false,
   "values": [
@@ -63,11 +54,10 @@ You can add items to this tag via a Data Pack:
 
 ### API
 
-Developers can add support for their own cables by implementing the `Cable` interface and registering a `CableProvider`
-via `Cables.registerProvider`.
+Developers can add support for their own cables by implementing the `Cable` interface and registering a `CableProvider` via `Cables.registerProvider`.
 
----
+***
 
 ## License
 
-[![Code license (MIT)](https://img.shields.io/badge/code%20license-MIT-green.svg?style=flat-square)](https://github.com/evanbones/Ziplines-Rezipped/blob/1.21.1/LICENSE.txt)
+[![Code license (MIT)](https://img.shields.io/badge/code license-MIT-green.svg?style=flat-square)](https://github.com/evanbones/Ziplines-Rezipped/blob/1.21.1/LICENSE.txt)
