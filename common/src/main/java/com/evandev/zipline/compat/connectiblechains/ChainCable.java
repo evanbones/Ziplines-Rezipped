@@ -1,15 +1,14 @@
 package com.evandev.zipline.compat.connectiblechains;
 
-import com.evandev.connectiblechains.CommonClass;
 import com.evandev.connectiblechains.util.MathHelper;
 import com.evandev.zipline.Cable;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 
-public record ChainCable(Vec3 from, Vec3 to, Vec3 delta, Vec3 direction, double length) implements Cable {
+public record ChainCable(Vec3 from, Vec3 to, Vec3 delta, Vec3 direction, double length, double slack) implements Cable {
 
-    public static ChainCable from(Entity from, Entity to) {
+    public static ChainCable from(Entity from, Entity to, double slack) {
         var fromPos = from.position();
         var toPos = to.position();
 
@@ -23,7 +22,7 @@ public record ChainCable(Vec3 from, Vec3 to, Vec3 delta, Vec3 direction, double 
         var direction = delta.normalize();
         var length = delta.length();
 
-        return new ChainCable(fromPos, toPos, delta, direction, length);
+        return new ChainCable(fromPos, toPos, delta, direction, length, slack);
     }
 
     @Override
@@ -41,7 +40,6 @@ public record ChainCable(Vec3 from, Vec3 to, Vec3 delta, Vec3 direction, double 
         double wrongDistanceFactor = length / distanceXZ;
         double a = (progress * distanceXZ);
 
-        double slack = CommonClass.runtimeConfig.getChainHangAmount();
         double y = MathHelper.drip2(a * wrongDistanceFactor, length, delta.y(), slack) + .4f;
 
         double x = (progress * delta.x());
