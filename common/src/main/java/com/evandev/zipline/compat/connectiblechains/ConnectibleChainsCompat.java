@@ -25,7 +25,7 @@ public class ConnectibleChainsCompat {
                         continue;
                     }
 
-                    var cable = ChainCable.from(knot, holder);
+                    var cable = ChainCable.from(knot, holder, chainData.getSlack());
                     var closestPoint = cable.getClosestPoint(offsetPlayerPos);
 
                     var distance = closestPoint.distanceToSqr(offsetPlayerPos);
