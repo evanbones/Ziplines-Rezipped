@@ -1,3 +1,3 @@
-### Changed
+### Fixed
 
-* Rewrote the mod and ported to multiloader Forge/Fabric.
+* Updated Reconnectible Chains compat.
