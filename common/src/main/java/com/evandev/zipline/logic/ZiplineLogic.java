@@ -235,10 +235,10 @@ public class ZiplineLogic {
     }
 
     private static void interruptUsing(Player player, ZiplinePlayerDuck duck) {
+        disable(duck);
         player.stopUsingItem();
         applyExitMomentum(player, duck);
         player.playSound(ZiplineSoundEvents.ZIPLINE_INTERRUPT.get(), 0.5f, 1);
-        disable(duck);
     }
 
     private static void disable(ZiplinePlayerDuck duck) {

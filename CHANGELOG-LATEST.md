@@ -1,3 +1,3 @@
 ### Fixed
 
-* Support per-chain slack adjustments with Reconnectible Chains for zipline visuals.
+* Fixed edge-case bug when reconnecting to ziplines from the ground.
