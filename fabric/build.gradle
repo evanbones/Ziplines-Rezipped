@@ -1,7 +1,6 @@
 plugins {
     id 'multiloader-loader'
     id 'fabric-loom'
-    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
 }
 
 configurations.configureEach {
@@ -28,7 +27,7 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:${mod_menu_version}"
 
     // Optional Dependencies
-    modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_fabric_version}"
+    modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_version}-fabric"
 
     modCompileOnly "maven.modrinth:station-decoration:Toh7oVVr"
     modCompileOnly "maven.modrinth:minecraft-transit-railway:FABRIC-4.0.0-beta.13+1.20.1"
@@ -65,26 +64,4 @@ loom {
 
 publishMods {
     file = tasks.named("remapJar").flatMap { it.archiveFile }
-    changelog = rootProject.file("CHANGELOG-LATEST.md").text
-    type = STABLE
-    displayName = "${mod_name} Fabric ${minecraft_version} - ${project.version}"
-    modLoaders.add("fabric")
-
-    curseforge {
-        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        projectId = "1454717"
-        minecraftVersions.add("${minecraft_version}")
-
-        optional { slug = "cloth-config" }
-        optional { slug = "reconnectible-chains" }
-    }
-
-    modrinth {
-        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        projectId = "C1MoWQlb"
-        minecraftVersions.add("${minecraft_version}")
-
-        optional { slug = "cloth-config" }
-        optional { slug = "reconnectible-chains" }
-    }
 }

@@ -19,7 +19,7 @@ dependencies {
     compileOnly "me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}"
 
     // Reconnectible Chains
-    compileOnly "maven.modrinth:reconnectible-chains:${reconnectible_chains_forge_version}"
+    compileOnly "maven.modrinth:reconnectible-chains:${reconnectible_chains_version}-forge"
 
     compileOnly "maven.modrinth:station-decoration:Toh7oVVr"
     compileOnly "maven.modrinth:minecraft-transit-railway:Fc07qRMD"
