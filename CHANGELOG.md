@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-04-13
+
+### Added
+
+- Added config for ziplining speed multiplier.
+
+### Changed
+
+- Holding shift when disconnecting from a Zipline will now drop you to the ground without jumping.
+
+### Fixed
+
+- Fixed incompatibility with Spice of Life: Valheim.
+
 ## [1.0.3] - 2026-02-27
 
 ### Fixed

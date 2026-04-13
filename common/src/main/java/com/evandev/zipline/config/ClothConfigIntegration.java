@@ -51,6 +51,12 @@ public class ClothConfigIntegration {
                 .setSaveConsumer(newValue -> config.hangOffset = newValue)
                 .build());
 
+        general.addEntry(entryBuilder.startDoubleField(Component.translatable("config.zipline.option.speed_multiplier"), config.speedMultiplier)
+                .setDefaultValue(1.0)
+                .setTooltip(Component.translatable("config.zipline.option.speed_multiplier.tooltip"))
+                .setSaveConsumer(newValue -> config.speedMultiplier = newValue)
+                .build());
+
         general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.zipline.option.realistic_physics"), config.realisticPhysics)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("config.zipline.option.realistic_physics.tooltip"))

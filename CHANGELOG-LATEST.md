@@ -1,3 +1,11 @@
+### Added
+
+- Added config for ziplining speed multiplier.
+
+### Changed
+
+- Holding shift when disconnecting from a Zipline will now drop you to the ground without jumping.
+
 ### Fixed
 
-* Fixed edge-case bug when reconnecting to ziplines from the ground.
+- Fixed incompatibility with Spice of Life: Valheim.

@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Item.class)
+@Mixin(value = Item.class, priority = 500)
 public class ItemMixin {
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
@@ -55,7 +55,7 @@ public class ItemMixin {
     @Inject(method = "getUseDuration", at = @At("HEAD"), cancellable = true)
     private void getUseDuration(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
         if (stack.is(ZiplineTags.ATTACHMENT)) {
-            cir.setReturnValue(Integer.MAX_VALUE);
+            cir.setReturnValue(72000);
         }
     }
 
