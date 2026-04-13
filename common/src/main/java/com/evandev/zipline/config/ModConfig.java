@@ -21,6 +21,7 @@ public class ModConfig {
     public boolean useAnywhere = false;
     public double maxTurnAngle = 0.707;
     public double hangOffset = 2.1;
+    public double speedMultiplier = 1.0;
     public boolean realisticPhysics = false;
     public double exitJumpMultiplier = 1.4;
     public boolean consumeDurability = true;

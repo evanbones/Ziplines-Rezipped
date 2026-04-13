@@ -161,7 +161,7 @@ public class ZiplineLogic {
         duck.zipline$setSpeed(Math.abs(velocity));
         duck.zipline$setDirectionFactor(velocity >= 0 ? 1 : -1);
 
-        double moveDelta = velocity / cable.length();
+        double moveDelta = (velocity * ModConfig.get().speedMultiplier) / cable.length();
         double newProgress = oldProgress + moveDelta;
         newProgress = Mth.clamp(newProgress, 0.0, 1.0);
 
@@ -253,8 +253,10 @@ public class ZiplineLogic {
         player.getCooldowns().addCooldown(stack.getItem(), 10);
 
         if (duck.zipline$isActuallyUsing()) {
-            double jumpY = 0.5 * ModConfig.get().exitJumpMultiplier;
-            player.addDeltaMovement(new Vec3(0, jumpY, 0));
+            if (!player.isShiftKeyDown()) {
+                double jumpY = 0.5 * ModConfig.get().exitJumpMultiplier;
+                player.addDeltaMovement(new Vec3(0, jumpY, 0));
+            }
 
             applyExitMomentum(player, duck);
             disable(duck);
