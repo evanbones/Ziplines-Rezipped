@@ -37,7 +37,7 @@ public class ZiplineLogic {
             return;
         }
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             if (ModConfig.get().consumeDurability && player.tickCount % 40 == 0) {
                 Vec3 offsetPlayerPos = player.position().add(0, ModConfig.get().hangOffset, 0);
                 Cable cable = Cables.getClosestCable(level, offsetPlayerPos, ModConfig.get().snapRadius);
@@ -250,7 +250,7 @@ public class ZiplineLogic {
     public static void release(Player player, ItemStack stack) {
         ZiplinePlayerDuck duck = (ZiplinePlayerDuck) player;
 
-        player.getCooldowns().addCooldown(stack.getItem(), 10);
+        player.getCooldowns().addCooldown(stack.getItem().getDefaultInstance(), 10);
 
         if (duck.zipline$isActuallyUsing()) {
             if (!player.isShiftKeyDown()) {

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.util.Mth;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,20 +17,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin implements GameRendererDuck {
-    @Shadow
-    @Final
-    Minecraft minecraft;
     @Unique
     int zipline$ziplineTilt = 0;
+
     @Unique
     float zipline$ziplineTiltDirection;
 
+    @Shadow
+    @Final
+    private Minecraft minecraft;
+
     @Inject(method = "bobHurt", at = @At("HEAD"))
-    void bobHurt(PoseStack poseStack, float tickDelta, CallbackInfo ci) {
+    void bobHurt(CameraRenderState cameraState, PoseStack poseStack, CallbackInfo ci) {
         if (zipline$ziplineTilt <= 0) {
             return;
         }
 
+        float tickDelta = minecraft.getDeltaTracker().getGameTimeDeltaPartialTick(false);
         float progress = (zipline$ziplineTilt - tickDelta) / 10.0F;
         float ease = Mth.sin(progress * Mth.PI);
 

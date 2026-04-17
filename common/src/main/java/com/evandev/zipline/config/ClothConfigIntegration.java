@@ -46,7 +46,7 @@ public class ClothConfigIntegration {
                 .build());
 
         general.addEntry(entryBuilder.startDoubleField(Component.translatable("config.zipline.option.hang_offset"), config.hangOffset)
-                .setDefaultValue(2.1)
+                .setDefaultValue(2.3)
                 .setTooltip(Component.translatable("config.zipline.option.hang_offset.tooltip"))
                 .setSaveConsumer(newValue -> config.hangOffset = newValue)
                 .build());

@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
@@ -21,27 +21,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemInHandRenderer.class)
 public abstract class ItemInHandRendererMixin {
-    @Shadow
-    public abstract void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, boolean bl, PoseStack poseStack, MultiBufferSource multiBufferSource, int i);
 
     @Shadow
-    protected abstract void renderPlayerArm(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, float f, float g, HumanoidArm humanoidArm);
+    public abstract void renderItem(LivingEntity mob, ItemStack itemStack, ItemDisplayContext type, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords);
+
+    @Shadow
+    protected abstract void renderPlayerArm(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, float inverseArmHeight, float attackValue, HumanoidArm arm);
 
     @Inject(method = "renderArmWithItem", at = @At("HEAD"), cancellable = true)
-    void renderArmWithItem(AbstractClientPlayer abstractClientPlayer, float tickDelta, float xRot, InteractionHand interactionHand, float attackAnim, ItemStack itemStack, float mainHandHeight, PoseStack poseStack, MultiBufferSource multiBufferSource, int lightCoords, CallbackInfo ci) {
-        if (!itemStack.is(ZiplineTags.ATTACHMENT) || !abstractClientPlayer.isUsingItem()) {
+    void renderArmWithItem(AbstractClientPlayer player, float frameInterp, float xRot, InteractionHand hand, float attack, ItemStack itemStack, float inverseArmHeight, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords, CallbackInfo ci) {
+        if (!itemStack.is(ZiplineTags.ATTACHMENT) || !player.isUsingItem()) {
             return;
         }
 
         poseStack.pushPose();
 
-        boolean bl = interactionHand == InteractionHand.MAIN_HAND;
-        HumanoidArm humanoidArm = bl ? abstractClientPlayer.getMainArm() : abstractClientPlayer.getMainArm().getOpposite();
+        boolean bl = hand == InteractionHand.MAIN_HAND;
+        HumanoidArm humanoidArm = bl ? player.getMainArm() : player.getMainArm().getOpposite();
 
         boolean bl2 = humanoidArm == HumanoidArm.RIGHT;
         int q = bl2 ? 1 : -1;
 
-        zipline$shake(itemStack, abstractClientPlayer, tickDelta, poseStack);
+        zipline$shake(itemStack, player, frameInterp, poseStack);
 
         poseStack.translate(0, -0.4, 0.2);
 
@@ -49,18 +50,18 @@ public abstract class ItemInHandRendererMixin {
         poseStack.mulPose(Axis.YN.rotationDegrees((float) q * -10.0f));
         poseStack.mulPose(Axis.ZP.rotationDegrees((float) q * 70));
 
-        renderPlayerArm(poseStack, multiBufferSource, lightCoords, 0, 0, humanoidArm);
+        renderPlayerArm(poseStack, submitNodeCollector, lightCoords, 0, 0, humanoidArm);
         poseStack.popPose();
 
         poseStack.pushPose();
 
-        zipline$shake(itemStack, abstractClientPlayer, tickDelta, poseStack);
+        zipline$shake(itemStack, player, frameInterp, poseStack);
 
         poseStack.translate(q * 0.4, 0.3, -0.8);
         poseStack.mulPose(Axis.ZP.rotationDegrees((float) q * 15));
         poseStack.mulPose(Axis.XP.rotationDegrees(15));
 
-        this.renderItem(abstractClientPlayer, itemStack, bl2 ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, !bl2, poseStack, multiBufferSource, lightCoords);
+        this.renderItem(player, itemStack, bl2 ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, poseStack, submitNodeCollector, lightCoords);
 
         poseStack.popPose();
 
@@ -68,8 +69,8 @@ public abstract class ItemInHandRendererMixin {
     }
 
     @Unique
-    void zipline$shake(ItemStack itemStack, AbstractClientPlayer abstractClientPlayer, float tickDelta, PoseStack poseStack) {
-        float useFactor = itemStack.getUseDuration(abstractClientPlayer) - (abstractClientPlayer.getUseItemRemainingTicks() - tickDelta + 1.0f);
+    void zipline$shake(ItemStack itemStack, AbstractClientPlayer abstractClientPlayer, float frameInterp, PoseStack poseStack) {
+        float useFactor = itemStack.getUseDuration(abstractClientPlayer) - (abstractClientPlayer.getUseItemRemainingTicks() - frameInterp + 1.0f);
 
         float m = Mth.sin((useFactor - 0.1f) * 1.3f);
         float q = Mth.sin((useFactor * .3f - 0.4f) * 1.3f);
@@ -80,26 +81,5 @@ public abstract class ItemInHandRendererMixin {
         float l = q * influence;
 
         poseStack.translate(l * 0.003f, o * 0.001f, o * 0.001f);
-    }
-
-    @Inject(method = "renderItem", at = @At("HEAD"))
-    void renderItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext itemDisplayContext, boolean bl, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-        if (!(livingEntity instanceof AbstractClientPlayer player)) {
-            return;
-        }
-
-        if (!player.isUsingItem() || !player.getUseItem().is(ZiplineTags.ATTACHMENT) || itemStack != player.getUseItem()) {
-            return;
-        }
-
-        if (itemDisplayContext != ItemDisplayContext.THIRD_PERSON_RIGHT_HAND && itemDisplayContext != ItemDisplayContext.THIRD_PERSON_LEFT_HAND) {
-            return;
-        }
-
-        boolean isLeft = itemDisplayContext == ItemDisplayContext.THIRD_PERSON_LEFT_HAND;
-
-        poseStack.translate(isLeft ? 0.2 : -0.2, -0.25, 0.0);
-        poseStack.mulPose(Axis.XP.rotationDegrees(-90));
-        poseStack.mulPose(Axis.YP.rotationDegrees(isLeft ? -90 : 90));
     }
 }

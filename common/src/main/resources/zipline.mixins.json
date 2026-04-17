@@ -1,7 +1,6 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "refmap": "${mod_id}.refmap.json",
   "package": "com.evandev.zipline.mixin",
   "compatibilityLevel": "JAVA_18",
   "mixins": [
@@ -13,6 +12,7 @@
   "client": [
     "GameRendererMixin",
     "HumanoidModelMixin",
+    "ItemInHandLayerMixin",
     "ItemInHandRendererMixin"
   ],
   "server": [],
