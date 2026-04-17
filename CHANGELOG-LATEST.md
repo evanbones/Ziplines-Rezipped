@@ -1,1 +1,3 @@
-- Ported to 26.1.
+### Fixed
+
+- Lowered required 26.1 NeoForge version.
