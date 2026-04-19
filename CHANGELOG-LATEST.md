@@ -1,3 +1,7 @@
+### Added
+
+- Added a config option to control the cooldown after dismounting zipline.
+
 ### Fixed
 
-- Lowered required 26.1 NeoForge version.
+- Fixed fall damage accumulation when dismounting zipline.

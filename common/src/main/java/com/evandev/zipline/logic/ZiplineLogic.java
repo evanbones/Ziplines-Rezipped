@@ -185,6 +185,7 @@ public class ZiplineLogic {
 
         player.setPos(newOffsetPosition);
         player.setDeltaMovement(0, 0, 0);
+        player.fallDistance = 0.0F;
         player.playSound(ZiplineSoundEvents.ZIPLINE_USE.get(), 1.0F, .3f + (float) duck.zipline$getSpeed());
 
         if (newProgress >= 1.0 || newProgress <= 0.0) {
@@ -250,7 +251,7 @@ public class ZiplineLogic {
     public static void release(Player player, ItemStack stack) {
         ZiplinePlayerDuck duck = (ZiplinePlayerDuck) player;
 
-        player.getCooldowns().addCooldown(stack.getItem().getDefaultInstance(), 10);
+        player.getCooldowns().addCooldown(stack.getItem().getDefaultInstance(), ModConfig.get().releaseCooldown);
 
         if (duck.zipline$isActuallyUsing()) {
             if (!player.isShiftKeyDown()) {

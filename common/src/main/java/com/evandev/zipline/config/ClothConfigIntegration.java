@@ -32,7 +32,6 @@ public class ClothConfigIntegration {
                 .setSaveConsumer(newValue -> config.clickReach = newValue)
                 .build());
 
-
         general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.zipline.option.use_anywhere"), config.useAnywhere)
                 .setDefaultValue(false)
                 .setTooltip(Component.translatable("config.zipline.option.use_anywhere.tooltip"))
@@ -73,6 +72,13 @@ public class ClothConfigIntegration {
                 .setDefaultValue(true)
                 .setTooltip(Component.translatable("config.zipline.option.consume_durability.tooltip"))
                 .setSaveConsumer(newValue -> config.consumeDurability = newValue)
+                .build());
+
+        general.addEntry(entryBuilder.startIntField(Component.translatable("config.zipline.option.release_cooldown"), config.releaseCooldown)
+                .setDefaultValue(10)
+                .setMin(0)
+                .setTooltip(Component.translatable("config.zipline.option.release_cooldown.tooltip"))
+                .setSaveConsumer(newValue -> config.releaseCooldown = newValue)
                 .build());
 
         return builder.build();
