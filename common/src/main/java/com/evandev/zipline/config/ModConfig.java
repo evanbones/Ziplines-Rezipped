@@ -25,6 +25,7 @@ public class ModConfig {
     public boolean realisticPhysics = false;
     public double exitJumpMultiplier = 1.4;
     public boolean consumeDurability = true;
+    public int releaseCooldown = 10;
 
     public static ModConfig get() {
         if (INSTANCE == null) {
