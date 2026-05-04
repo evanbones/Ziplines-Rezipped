@@ -22,7 +22,7 @@ dependencies {
     compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
 
     // Reconnectible Chains
-    compileOnly "maven.modrinth:reconnectible-chains:${reconnectible_chains_neoforge_version}"
+    implementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_version}-neoforge"
 
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
     compileOnly group: 'org.ow2.asm', name: 'asm-tree', version: '9.6'

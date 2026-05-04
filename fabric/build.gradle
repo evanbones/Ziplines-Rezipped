@@ -18,7 +18,7 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:${mod_menu_version}"
 
     // Optional Dependencies
-    modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_fabric_version}"
+    modImplementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_version}-fabric"
 
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
