@@ -58,7 +58,6 @@ public class ZiplineLogic {
         }
 
         ZiplinePlayerDuck duck = (ZiplinePlayerDuck) player;
-
         if (!duck.zipline$isActuallyUsing()) {
             attemptAttach(player, duck);
         } else {

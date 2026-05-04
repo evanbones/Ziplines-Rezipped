@@ -16,7 +16,7 @@ dependencies {
     compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
 
     // Reconnectible Chains
-    compileOnly "maven.modrinth:reconnectible-chains:${reconnectible_chains_version}-neoforge"
+    implementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_version}-neoforge"
 
     compileOnly group: 'org.spongepowered', name: 'mixin', version: '0.8.5'
     compileOnly group: 'io.github.llamalad7', name: 'mixinextras-common', version: '0.4.1'
