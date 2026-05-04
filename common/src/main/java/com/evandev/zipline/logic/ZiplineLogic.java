@@ -38,13 +38,15 @@ public class ZiplineLogic {
         }
 
         if (!level.isClientSide) {
-            if (ModConfig.get().consumeDurability && player.tickCount % 40 == 0) {
-                Vec3 offsetPlayerPos = player.position().add(0, ModConfig.get().hangOffset, 0);
-                Cable cable = Cables.getClosestCable(level, offsetPlayerPos, ModConfig.get().snapRadius);
+            Vec3 offsetPlayerPos = player.position().add(0, ModConfig.get().hangOffset, 0);
+            Cable cable = Cables.getClosestCable(level, offsetPlayerPos, ModConfig.get().snapRadius);
 
-                if (cable != null) {
-                    Vec3 closestPoint = cable.getClosestPoint(offsetPlayerPos);
-                    if (closestPoint.distanceToSqr(offsetPlayerPos) < 0.25) {
+            if (cable != null) {
+                Vec3 closestPoint = cable.getClosestPoint(offsetPlayerPos);
+                if (closestPoint.distanceToSqr(offsetPlayerPos) < 0.25) {
+                    player.fallDistance = 0.0F;
+
+                    if (ModConfig.get().consumeDurability && player.tickCount % 40 == 0) {
                         EquipmentSlot slot = player.getOffhandItem() == stack ? EquipmentSlot.OFFHAND : EquipmentSlot.MAINHAND;
                         stack.hurtAndBreak(1, player, (entity) -> entity.broadcastBreakEvent(slot));
                     }
@@ -58,7 +60,6 @@ public class ZiplineLogic {
         }
 
         ZiplinePlayerDuck duck = (ZiplinePlayerDuck) player;
-
         if (!duck.zipline$isActuallyUsing()) {
             attemptAttach(player, duck);
         } else {
