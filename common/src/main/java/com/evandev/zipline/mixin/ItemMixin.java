@@ -3,6 +3,7 @@ package com.evandev.zipline.mixin;
 import com.evandev.zipline.Cable;
 import com.evandev.zipline.Cables;
 import com.evandev.zipline.config.ModConfig;
+import com.evandev.zipline.duck.ZiplinePlayerDuck;
 import com.evandev.zipline.logic.ZiplineLogic;
 import com.evandev.zipline.registry.ZiplineTags;
 import net.minecraft.world.InteractionHand;
@@ -32,6 +33,9 @@ public class ItemMixin {
             Cable cable = Cables.getClosestCable(level, offset, ModConfig.get().clickReach);
 
             if (cable != null || ModConfig.get().useAnywhere) {
+                if (level.isClientSide && player.isLocalPlayer()) {
+                    ZiplineLogic.disable((ZiplinePlayerDuck) player);
+                }
                 player.startUsingItem(hand);
                 cir.setReturnValue(InteractionResultHolder.consume(stack));
             }
