@@ -11,7 +11,7 @@ public class ZiplineMod implements ModInitializer {
     public void onInitialize() {
         Zipline.init();
 
-        PayloadTypeRegistry.playS2C().register(ConfigSyncPayload.TYPE, ConfigSyncPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(ConfigSyncPayload.TYPE, ConfigSyncPayload.CODEC);
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             sender.sendPacket(ConfigSyncPayload.fromModConfig(ModConfig.get()));

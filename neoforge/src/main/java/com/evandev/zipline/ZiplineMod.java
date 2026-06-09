@@ -34,7 +34,7 @@ public class ZiplineMod {
 
         NeoForge.EVENT_BUS.addListener(this::onPlayerJoin);
 
-        if (FMLEnvironment.dist.isClient()) {
+        if (FMLEnvironment.getDist().isClient()) {
             ClientConfigSetup.register(modContainer);
             NeoForge.EVENT_BUS.addListener(this::onPlayerLogout);
         }

@@ -35,7 +35,7 @@ public class ItemMixin {
             Cable cable = Cables.getClosestCable(level, offset, ModConfig.get().clickReach);
 
             if (cable != null || ModConfig.get().useAnywhere) {
-                if (level.isClientSide && player.isLocalPlayer()) {
+                if (level.isClientSide() && player.isLocalPlayer()) {
                     ZiplineLogic.disable((ZiplinePlayerDuck) player);
                 }
                 player.startUsingItem(hand);
