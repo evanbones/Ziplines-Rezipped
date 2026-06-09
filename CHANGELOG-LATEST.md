@@ -1,3 +1,3 @@
 ### Fixed
 
-- Actually fixed fall damage accumulation.
+- Configs are now server-authoritative.
