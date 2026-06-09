@@ -241,7 +241,7 @@ public class ZiplineLogic {
         player.playSound(ZiplineSoundEvents.ZIPLINE_INTERRUPT.get(), 0.5f, 1);
     }
 
-    private static void disable(ZiplinePlayerDuck duck) {
+    public static void disable(ZiplinePlayerDuck duck) {
         duck.zipline$setCable(null);
         duck.zipline$setActuallyUsing(false);
         duck.zipline$setSpeed(0);
