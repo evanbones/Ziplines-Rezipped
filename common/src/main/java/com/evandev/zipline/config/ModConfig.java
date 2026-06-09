@@ -15,6 +15,8 @@ public class ModConfig {
     private static final File CONFIG_FILE = Services.PLATFORM.getConfigDirectory().resolve("zipline.json").toFile();
 
     private static ModConfig INSTANCE;
+    private static ModConfig BACKUP;
+    public transient boolean isServerConfig = false;
 
     public double snapRadius = 2.0;
     public double clickReach = 3.0;
@@ -53,6 +55,29 @@ public class ModConfig {
             GSON.toJson(INSTANCE, writer);
         } catch (IOException e) {
             Constants.LOG.error("Failed to save zipline.json", e);
+        }
+    }
+
+    /**
+     * Applies the server configuration and backs up the local one.
+     */
+    public static void setServerConfig(ModConfig serverConfig) {
+        if (BACKUP == null) {
+            BACKUP = INSTANCE;
+        }
+        serverConfig.isServerConfig = true;
+        INSTANCE = serverConfig;
+        Constants.LOG.info("Applied server configuration for Zipline.");
+    }
+
+    /**
+     * Restores the local configuration when disconnecting from a server.
+     */
+    public static void restoreLocalConfig() {
+        if (BACKUP != null) {
+            INSTANCE = BACKUP;
+            BACKUP = null;
+            Constants.LOG.info("Restored local configuration for Zipline.");
         }
     }
 }
