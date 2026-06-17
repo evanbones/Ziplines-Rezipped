@@ -13,6 +13,10 @@
     {
       "id": "#c:wrenches",
       "required": false
+    },
+    {
+      "id": "#minecraft:hoes",
+      "required": false
     }
   ]
 }
