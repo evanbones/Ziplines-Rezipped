@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_18",
   "mixins": [
     "ItemMixin",
+    "LivingEntityAccessor",
     "PlayerMixin",
     "ServerGamePacketListenerImplMixin",
     "compat.connectiblechains.EntityMixin"

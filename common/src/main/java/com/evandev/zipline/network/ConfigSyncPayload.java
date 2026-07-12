@@ -17,7 +17,8 @@ public record ConfigSyncPayload(
         boolean realisticPhysics,
         double exitJumpMultiplier,
         boolean consumeDurability,
-        int releaseCooldown
+        int releaseCooldown,
+        boolean jumpRequiredToDismount
 ) implements CustomPacketPayload {
 
     public static final Type<ConfigSyncPayload> TYPE = new Type<>(Zipline.id("config_sync"));
@@ -31,7 +32,7 @@ public record ConfigSyncPayload(
                 buf.readDouble(), buf.readDouble(), buf.readBoolean(),
                 buf.readDouble(), buf.readDouble(), buf.readDouble(),
                 buf.readBoolean(), buf.readDouble(), buf.readBoolean(),
-                buf.readInt()
+                buf.readInt(), buf.readBoolean()
         );
     }
 
@@ -46,6 +47,7 @@ public record ConfigSyncPayload(
         buf.writeDouble(exitJumpMultiplier);
         buf.writeBoolean(consumeDurability);
         buf.writeInt(releaseCooldown);
+        buf.writeBoolean(jumpRequiredToDismount);
     }
 
     public static ConfigSyncPayload fromModConfig(ModConfig config) {
@@ -53,7 +55,8 @@ public record ConfigSyncPayload(
                 config.snapRadius, config.clickReach, config.useAnywhere,
                 config.maxTurnAngle, config.hangOffset, config.speedMultiplier,
                 config.realisticPhysics, config.exitJumpMultiplier,
-                config.consumeDurability, config.releaseCooldown
+                config.consumeDurability, config.releaseCooldown,
+                config.jumpRequiredToDismount
         );
     }
 
@@ -69,6 +72,7 @@ public record ConfigSyncPayload(
         config.exitJumpMultiplier = this.exitJumpMultiplier;
         config.consumeDurability = this.consumeDurability;
         config.releaseCooldown = this.releaseCooldown;
+        config.jumpRequiredToDismount = this.jumpRequiredToDismount;
         return config;
     }
 

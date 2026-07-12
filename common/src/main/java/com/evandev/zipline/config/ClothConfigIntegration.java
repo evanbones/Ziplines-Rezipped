@@ -93,6 +93,12 @@ public class ClothConfigIntegration {
                 .setSaveConsumer(newValue -> { if (!isServer) config.releaseCooldown = newValue; })
                 .build());
 
+        general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.zipline.option.jump_required_to_dismount"), config.jumpRequiredToDismount)
+                .setDefaultValue(true)
+                .setTooltip(Component.translatable("config.zipline.option.jump_required_to_dismount.tooltip"))
+                .setSaveConsumer(newValue -> { if (!isServer) config.jumpRequiredToDismount = newValue; })
+                .build());
+
         return builder.build();
     }
 }

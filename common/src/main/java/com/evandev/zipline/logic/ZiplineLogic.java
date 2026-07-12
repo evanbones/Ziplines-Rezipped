@@ -5,6 +5,7 @@ import com.evandev.zipline.Cables;
 import com.evandev.zipline.client.ZiplineClient;
 import com.evandev.zipline.config.ModConfig;
 import com.evandev.zipline.duck.ZiplinePlayerDuck;
+import com.evandev.zipline.mixin.LivingEntityAccessor;
 import com.evandev.zipline.registry.ZiplineSoundEvents;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -116,6 +117,12 @@ public class ZiplineLogic {
     }
 
     private static void ziplineTick(Player player, ZiplinePlayerDuck duck, ItemStack stack) {
+        if (((LivingEntityAccessor) player).zipline$isJumping()) {
+            release(player, stack);
+            player.stopUsingItem();
+            return;
+        }
+
         if (player.onGround()) {
             interruptUsing(player, duck);
             return;
@@ -255,12 +262,19 @@ public class ZiplineLogic {
         player.getCooldowns().addCooldown(stack.getItem(), ModConfig.get().releaseCooldown);
 
         if (duck.zipline$isActuallyUsing()) {
-            if (!player.isShiftKeyDown()) {
-                double jumpY = 0.5 * ModConfig.get().exitJumpMultiplier;
-                player.addDeltaMovement(new Vec3(0, jumpY, 0));
+            boolean shouldLaunch = true;
+            if (ModConfig.get().jumpRequiredToDismount) {
+                shouldLaunch = ((LivingEntityAccessor) player).zipline$isJumping();
             }
 
-            applyExitMomentum(player, duck);
+            if (shouldLaunch) {
+                if (!player.isShiftKeyDown()) {
+                    double jumpY = 0.5 * ModConfig.get().exitJumpMultiplier;
+                    player.addDeltaMovement(new Vec3(0, jumpY, 0));
+                }
+
+                applyExitMomentum(player, duck);
+            }
             disable(duck);
         }
     }

@@ -1,11 +1,4 @@
-### Added
-
-- Hoes can now also be used for ziplining by default.
-
 ### Changed
 
-- Adjusted default hang offset.
-
-### Fixed
-
-- Fixed zipline items activating with a shield in the offhand.
+- Adjusted default dismount behavior to not jump off Ziplines unless pressing space.
+    - Can be reverted with the new config option.

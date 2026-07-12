@@ -28,6 +28,7 @@ public class ModConfig {
     public double exitJumpMultiplier = 1.4;
     public boolean consumeDurability = true;
     public int releaseCooldown = 10;
+    public boolean jumpRequiredToDismount = true;
 
     public static ModConfig get() {
         if (INSTANCE == null) {

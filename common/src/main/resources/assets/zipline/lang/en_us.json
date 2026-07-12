@@ -29,5 +29,7 @@
   "config.zipline.option.use_anywhere": "Use Anywhere",
   "config.zipline.option.use_anywhere.tooltip": "Whether or not zipline items can be used from anywhere in the world, for emoting purposes",
   "config.zipline.option.speed_multiplier": "Speed Multiplier",
-  "config.zipline.option.speed_multiplier.tooltip": "A multiplier for ziplining speed (0.5 is half speed, 2.0 is double)"
+  "config.zipline.option.speed_multiplier.tooltip": "A multiplier for ziplining speed (0.5 is half speed, 2.0 is double)",
+  "config.zipline.option.jump_required_to_dismount": "Require Jump to Dismount",
+  "config.zipline.option.jump_required_to_dismount.tooltip": "If enabled, letting go of right-click drops you straight down. You must press Space to jump/launch off the zipline."
 }
