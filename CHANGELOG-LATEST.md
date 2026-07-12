@@ -1,4 +1,1 @@
-### Fixed
-
-- Configs are now server-authoritative.
-- Fixed ziplining desync.
+- Ported to 26.2.

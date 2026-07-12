@@ -14,16 +14,13 @@ configurations {
 
 dependencies {
     compileOnly(project(':common')) {
-        capabilities {
-            requireCapability "$group:$mod_id"
-        }
         def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)
         attributes {
             attribute(loaderAttribute, 'common')
         }
     }
-    commonJava project(path: ':common', configuration: 'commonJava')
-    commonResources project(path: ':common', configuration: 'commonResources')
+    commonJava(project(path: ':common', configuration: 'commonJava'))
+    commonResources(project(path: ':common', configuration: 'commonResources'))
 }
 
 tasks.named('compileJava', JavaCompile) {
@@ -52,23 +49,19 @@ publishMods {
 
     curseforge {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-        projectId = "1454717"
-        minecraftVersions.add("26.1")
-        minecraftVersions.add("26.1.1")
-        minecraftVersions.add("26.1.2")
+        projectId = "1451848"
+        minecraftVersions.add(project.minecraft_version)
 
-        optional { slug = "cloth-config" }
-        optional { slug = "reconnectible-chains" }
+        optional("cloth-config")
+        requires("reconnectible-chains")
     }
 
     modrinth {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        projectId = "C1MoWQlb"
-        minecraftVersions.add("26.1")
-        minecraftVersions.add("26.1.1")
-        minecraftVersions.add("26.1.2")
+        projectId = "5pzBXDS3"
+        minecraftVersions.add(project.minecraft_version)
 
-        optional { slug = "cloth-config" }
-        optional { slug = "reconnectible-chains" }
+        optional("cloth-config")
+        requires("reconnectible-chains")
     }
 }

@@ -3,15 +3,53 @@ plugins {
     id 'net.fabricmc.fabric-loom'
 }
 
+repositories {
+    maven {
+        name = "Terraformers Maven"
+        url = uri("https://maven.terraformersmc.com/releases/")
+        content {
+            includeGroupAndSubgroups("com.terraformersmc")
+        }
+    }
+    maven {
+        name = "Xander Maven"
+        url = uri("https://maven.isxander.dev/releases")
+        content {
+            includeGroupAndSubgroups("dev.isxander")
+            includeGroupAndSubgroups("org.quiltmc.parsers")
+        }
+    }
+    maven {
+        name = "Quilt Maven"
+        url = uri("https://maven.quiltmc.org/repository/release/")
+        content {
+            includeGroupAndSubgroups("org.quiltmc.parsers")
+        }
+    }
+    maven {
+        name = "Modrinth"
+        url = uri("https://api.modrinth.com/maven")
+        content {
+            includeGroupAndSubgroups("maven.modrinth")
+        }
+    }
+    maven {
+        name = "Cassian's Maven"
+        url = uri("https://maven.cassian.cc/")
+        content {
+            includeGroupAndSubgroups("cc.cassian")
+        }
+    }
+    mavenCentral()
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
     // RRV
-    runtimeOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}") {
-        transitive = false
-    }
+    runtimeOnly "cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}"
 
     // Cloth Config
     implementation "me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}"
@@ -19,6 +57,7 @@ dependencies {
 
     // Optional Dependencies
     implementation "maven.modrinth:reconnectible-chains:${reconnectible_chains_version}-fabric"
+    runtimeOnly "dev.isxander:yet-another-config-lib:${yacl_version}-fabric"
 }
 
 def loaderAttribute = Attribute.of('io.github.mcgradleconventions.loader', String)

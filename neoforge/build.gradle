@@ -42,7 +42,8 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
     // RRV
-    runtimeOnly("cc.cassian.rrv:reliable-recipe-viewer-neoforge:${rrv_version}")
+    runtimeOnly "cc.cassian.rrv:reliable-recipe-viewer-neoforge:${rrv_version}"
+    runtimeOnly "dev.isxander:yet-another-config-lib:${yacl_version}-neoforge"
 
     // Cloth Config
     implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"

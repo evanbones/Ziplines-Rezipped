@@ -14,19 +14,9 @@ java {
 
 repositories {
     mavenCentral()
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = 'Sponge'
-                url = 'https://repo.spongepowered.org/repository/maven-public'
-            }
-        }
-        filter { includeGroupAndSubgroups('org.spongepowered') }
-    }
-
     maven {
-        name = 'BlameJared'
-        url = 'https://maven.blamejared.com'
+        name = "Xander's Maven"
+        url = "https://maven.isxander.dev/releases"
     }
 
     exclusiveContent {
@@ -39,11 +29,6 @@ repositories {
         filter {
             includeGroup "maven.modrinth"
         }
-    }
-
-    maven {
-        name = 'Fabric'
-        url = 'https://maven.fabricmc.net/'
     }
 
     maven {
