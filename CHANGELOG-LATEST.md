@@ -1,4 +1,7 @@
 ### Changed
 
-- Adjusted default dismount behavior to not jump off Ziplines unless pressing space.
-    - Can be reverted with the new config option.
+- Added a small buffer after beginning to zipline so pressing space won't jump off the zipline.
+
+### Fixed
+
+- Ziplines now properly preserve momentum when dismounting.

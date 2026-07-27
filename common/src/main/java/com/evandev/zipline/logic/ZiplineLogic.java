@@ -94,6 +94,9 @@ public class ZiplineLogic {
     private static void enable(Player player, ZiplinePlayerDuck duck, Cable cable, Vec3 offsetPlayerPos) {
         duck.zipline$setActuallyUsing(true);
         duck.zipline$setCable(cable);
+        duck.zipline$setAttachTicks(0);
+        duck.zipline$setWasJumpingAtAttach(((LivingEntityAccessor) player).zipline$isJumping());
+        duck.zipline$setLastDir(Vec3.ZERO);
 
         double initialSpeed = Math.min(player.getDeltaMovement().length(), 0.5);
         duck.zipline$setSpeed(initialSpeed);
@@ -117,7 +120,19 @@ public class ZiplineLogic {
     }
 
     private static void ziplineTick(Player player, ZiplinePlayerDuck duck, ItemStack stack) {
-        if (((LivingEntityAccessor) player).zipline$isJumping()) {
+        int attachTicks = duck.zipline$getAttachTicks();
+        duck.zipline$setAttachTicks(attachTicks + 1);
+
+        boolean isJumping = ((LivingEntityAccessor) player).zipline$isJumping();
+        if (duck.zipline$wasJumpingAtAttach()) {
+            if (!isJumping) {
+                duck.zipline$setWasJumpingAtAttach(false);
+            }
+        }
+
+        boolean canJumpDismount = attachTicks >= 5 && !duck.zipline$wasJumpingAtAttach();
+
+        if (isJumping && canJumpDismount) {
             release(player, stack);
             player.stopUsingItem();
             return;
@@ -244,9 +259,11 @@ public class ZiplineLogic {
     }
 
     private static void interruptUsing(Player player, ZiplinePlayerDuck duck) {
-        disable(duck);
         player.stopUsingItem();
-        applyExitMomentum(player, duck);
+        if (!player.isShiftKeyDown()) {
+            applyExitMomentum(player, duck);
+        }
+        disable(duck);
         player.playSound(ZiplineSoundEvents.ZIPLINE_INTERRUPT.get(), 0.5f, 1);
     }
 
@@ -254,6 +271,8 @@ public class ZiplineLogic {
         duck.zipline$setCable(null);
         duck.zipline$setActuallyUsing(false);
         duck.zipline$setSpeed(0);
+        duck.zipline$setAttachTicks(0);
+        duck.zipline$setWasJumpingAtAttach(false);
     }
 
     public static void release(Player player, ItemStack stack) {
@@ -262,17 +281,15 @@ public class ZiplineLogic {
         player.getCooldowns().addCooldown(stack.getItem(), ModConfig.get().releaseCooldown);
 
         if (duck.zipline$isActuallyUsing()) {
-            boolean shouldLaunch = true;
-            if (ModConfig.get().jumpRequiredToDismount) {
-                shouldLaunch = ((LivingEntityAccessor) player).zipline$isJumping();
+            boolean isJumping = ((LivingEntityAccessor) player).zipline$isJumping();
+            boolean shouldLaunch = !ModConfig.get().jumpRequiredToDismount || isJumping;
+
+            if (shouldLaunch && isJumping && !player.isShiftKeyDown()) {
+                double jumpY = 0.5 * ModConfig.get().exitJumpMultiplier;
+                player.addDeltaMovement(new Vec3(0, jumpY, 0));
             }
 
-            if (shouldLaunch) {
-                if (!player.isShiftKeyDown()) {
-                    double jumpY = 0.5 * ModConfig.get().exitJumpMultiplier;
-                    player.addDeltaMovement(new Vec3(0, jumpY, 0));
-                }
-
+            if (!player.isShiftKeyDown()) {
                 applyExitMomentum(player, duck);
             }
             disable(duck);
@@ -282,9 +299,8 @@ public class ZiplineLogic {
     private static void applyExitMomentum(LivingEntity livingEntity, ZiplinePlayerDuck duck) {
         Vec3 lastDir = duck.zipline$getLastDir();
         if (lastDir != null) {
-            livingEntity.addDeltaMovement(lastDir.scale(.5));
+            livingEntity.addDeltaMovement(lastDir);
         }
-        livingEntity.addDeltaMovement(livingEntity.getLookAngle().with(Direction.Axis.Y, 0).scale(.5));
     }
 
     private static boolean isInvalidPosition(Player player, Vec3 deltaPos) {

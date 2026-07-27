@@ -21,4 +21,10 @@ public interface ZiplinePlayerDuck {
 
     boolean zipline$isActuallyUsing();
     void zipline$setActuallyUsing(boolean using);
+
+    int zipline$getAttachTicks();
+    void zipline$setAttachTicks(int ticks);
+
+    boolean zipline$wasJumpingAtAttach();
+    void zipline$setWasJumpingAtAttach(boolean wasJumping);
 }
