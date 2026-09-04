@@ -6,6 +6,8 @@ import com.evandev.zipline.Cable;
 import com.evandev.zipline.Cables;
 import net.minecraft.world.phys.AABB;
 
+import java.util.HashSet;
+
 public class ConnectibleChainsCompat {
     public static void register() {
         Cables.registerProvider((level, offsetPlayerPos, squaredRadius) -> {
@@ -18,7 +20,7 @@ public class ConnectibleChainsCompat {
             Cable nearestCable = null;
 
             for (var knot : knots) {
-                for (var chainData : knot.getChainDataSet()) {
+                for (var chainData : new HashSet<>(knot.getChainDataSet())) {
                     var holder = knot.getChainHolder(chainData);
 
                     if (holder == null) {
