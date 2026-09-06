@@ -1,3 +1,3 @@
 ### Fixed
 
-- Fixed possible crash while ziplining.
+- Fixed conventional wrench tags (@meeprdib).
